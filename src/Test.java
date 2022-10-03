@@ -1,17 +1,24 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.io.BufferedReader;
+
+
+import java.awt.event.KeyListener;
+
 import java.io.File;
-import java.io.FileReader;
+
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -29,19 +36,36 @@ public class Test extends Application {
     private int row;
     private int col;
 
+    private boolean right = false;
+
+    private int speed = 4;
+
+    private int playerX = 1;
+
+    private int playerY = 1;
+
+    private boolean[] keys = new boolean[120]; //120 is enough to this game
+    //public boolean up, down, left, right, space;
+    protected Sprite sprite;
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws  IOException {
+        // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
+        // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
 
+        // Tao scene
         Scene scene = new Scene(root);
+
+        // Them scene vao stage
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -57,8 +81,54 @@ public class Test extends Application {
 
         createMap();
 
-        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        Bomber bomberman = new Bomber(playerX, playerY, Sprite.player_right.getFxImage());
         entities.add(bomberman);
+
+        scene.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
+            @Override
+            public void handle(javafx.scene.input.KeyEvent event) {
+                KeyCode keyCode = event.getCode();
+                switch (keyCode) {
+                    case A:
+                        bomberman.setMoveLeft(true);
+
+                        break;
+                    case D:
+                        bomberman.setMoveRight(true);
+                        break;
+                    case W:
+                        bomberman.setMoveUp(true);
+                        break;
+                    case S:
+                        bomberman.setMoveDown(true);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        scene.setOnKeyReleased(new EventHandler<javafx.scene.input.KeyEvent>() {
+            @Override
+            public void handle(javafx.scene.input.KeyEvent event) {
+                KeyCode keyCode = event.getCode();
+                switch (keyCode) {
+                    case A:
+                        bomberman.setMoveLeft(false);
+                        break;
+                    case D:
+                        bomberman.setMoveRight(false);
+                        break;
+                    case W:
+                        bomberman.setMoveUp(false);
+                        break;
+                    case S:
+                        bomberman.setMoveDown(false);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     public void createMap() throws IOException {
@@ -68,6 +138,7 @@ public class Test extends Application {
         row = scanner.nextInt();
         col = scanner.nextInt();
         scanner.nextLine();
+
         for (int i = 0; i < row; i++) {
             String s = scanner.nextLine();
             for (int j = 0; j < s.length(); j++) {
@@ -122,4 +193,7 @@ public class Test extends Application {
     public int getCol() {
         return col;
     }
+
 }
+
+
