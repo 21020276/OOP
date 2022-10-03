@@ -5,7 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import uet.oop.bomberman.Event;
+
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.event.KeyEvent;
@@ -161,4 +161,6 @@ public class Bomber extends Entity {
                 break;
         }
     }
+
+
 }
