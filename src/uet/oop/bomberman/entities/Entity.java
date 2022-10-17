@@ -16,8 +16,16 @@ public abstract class Entity {
 
     protected Image img;
 
+    protected Sprite sprite;
+    protected int _animate = 0;
+    protected static final int MAX_ANIMATE = 7500;
+    protected void animate() {
+        if(_animate < MAX_ANIMATE) _animate++;
+        else _animate = 0; //reset animation
+    }
+
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
-    public Entity( int xUnit, int yUnit, Image img) {
+    public Entity(int xUnit, int yUnit, Image img) {
         this.x = xUnit * Sprite.SCALED_SIZE;
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.img = img;

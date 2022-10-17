@@ -24,10 +24,12 @@ public class BombermanGame extends Application {
     
     public static final int WIDTH = 20;
     public static final int HEIGHT = 15;
+    public static final int TILES_SIZE = 16;
     private GraphicsContext gc;
     private Canvas canvas;
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
+    private List<Bomb> bombList = new ArrayList<>();
     private int level;
     private int row;
     private int col;
@@ -71,7 +73,7 @@ public class BombermanGame extends Application {
 
         createMap();
 
-        Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        Bomber bomberman = new Bomber(playerX, playerY, Sprite.player_right.getFxImage());
         entities.add(bomberman);
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -91,6 +93,9 @@ public class BombermanGame extends Application {
                         break;
                     case S:
                         bomberman.setMoveDown(true);
+                        break;
+                    case SPACE:
+                        bomberman.plantbomb(bomberman.getX() / 32, bomberman.getY() / 32);
                         break;
                     default:
                         break;
@@ -132,10 +137,12 @@ public class BombermanGame extends Application {
         for (int i = 0; i < row; i++) {
             String s = scanner.nextLine();
             for (int j = 0; j < s.length(); j++) {
-                Entity object;
+                Entity object = new Grass(j, i, Sprite.grass.getFxImage());
+                stillObjects.add(object);
                 switch (s.charAt(j)) {
                     case '#' :
                         object = new Wall(j, i, Sprite.wall.getFxImage());
+                        stillObjects.add(object);
                         break;
                     case '*' :
                         object = new Brick(j, i, Sprite.brick.getFxImage());
@@ -144,13 +151,14 @@ public class BombermanGame extends Application {
                         object = new Portal(j, i, Sprite.portal.getFxImage());
                         break;
                     case '1' :
-                        object = new Balloon(j, i, Sprite.balloom_left1.getFxImage());
+                        Balloon balloon = new Balloon(j, i, Sprite.balloom_right1.getFxImage());
+
+                        entities.add(balloon);
                         break;
                     case '2' :
                         object = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
                         break;
                     default:
-                        object = new Grass(j, i, Sprite.grass.getFxImage());
                         break;
                 }
                 stillObjects.add(object);
@@ -160,11 +168,28 @@ public class BombermanGame extends Application {
 
     public void update() {
         entities.forEach(Entity::update);
+        stillObjects.forEach(Entity::update);
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
+    }
+
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    public int getHeight() {
+        return HEIGHT;
+    }
+
+    public int getTilesSize() {
+        return TILES_SIZE;
+    }
+
+    public void addBomb(Bomb bomb) {
+        bombList.add(bomb);
     }
 }
