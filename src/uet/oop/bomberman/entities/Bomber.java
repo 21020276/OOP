@@ -2,8 +2,10 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Board;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,6 @@ public class Bomber extends Entity {
     protected List<Bomb> bombList = new ArrayList<>();
     protected List<Explosion> explosionList = new ArrayList<>();
     protected int totalBomb = 1;
-
 
     protected void animate() {
         if(_animate < MAX_ANIMATE) _animate++;
@@ -131,19 +132,69 @@ public class Bomber extends Entity {
         }
     }
 
-    public boolean canMove(double x, double y) {
-        /*
-        for (int c = 0; c < 4; c++) { //colision detection for each corner of the player
-            double xt = ((_x + x) + c % 2 * 11) / BombermanGame.TILES_SIZE; //divide with tiles size to pass to tile coordinate
-            double yt = ((_y + y) + c / 2 * 12 - 13) / BombermanGame.TILES_SIZE; //these values are the best from multiple tests
-
-            Entity a = _board.getEntity(xt, yt, this);
-
-            if(!a.collide(this))
-                return false;
+    public boolean canMove(double xa, double ya) {
+        int moveX = 0;
+        int moveY = 0;
+        if (ya == 0 && xa != 0) {
+            if (xa < 0) {
+                moveX = (x - 1) / 32;
+            } else if (xa > 0) {
+                moveX = x / 32 + 1;
+            }
+            moveY = y / 32;
+            if (Board.getAt(moveX, moveY) == null) {
+                if (!this.collide(Board.getAt(moveX, moveY + 1))
+                    && !this.collide(Board.getAt(moveX, moveY - 1))) {
+                    return true;
+                }/* else {
+                    System.out.println("x  " + x + "     y" + y);
+                    if (Board.getAt(moveX, moveY + 1) != null) {
+                        System.out.println(Board.getAt(moveX, moveY + 1).getX() + "    "
+                            + Board.getAt(moveX, moveY + 1).getY());
+                    }
+                    if (Board.getAt(moveX, moveY - 1) != null) {
+                        System.out.println(Board.getAt(moveX, moveY - 1).getX() + "    "
+                            + Board.getAt(moveX, moveY - 1).getY());
+                    }
+                }*/
+            }
         }
-        */
-        return true;
+        if (xa == 0 && ya != 0) {
+            if (ya < 0) {
+                moveY = (y - 1) / 32;
+            } else if (ya > 0){
+                moveY = y / 32 + 1;
+            }
+            moveX = x / 32;
+            if (Board.getAt(moveX, moveY) == null) {
+                if (!this.collide(Board.getAt(moveX + 1, moveY))
+                        && !this.collide(Board.getAt(moveX - 1, moveY))) {
+                    return true;
+                }
+            }/* else {
+                System.out.println("x  " + x + "     y" + y);
+                if (Board.getAt(moveX + 1, moveY) != null) {
+                    System.out.println(Board.getAt(moveX + 1, moveY).getX() + "    "
+                            + Board.getAt(moveX + 1, moveY).getY());
+                }
+                if (Board.getAt(moveX - 1, moveY) != null) {
+                    System.out.println(Board.getAt(moveX - 1, moveY).getX() + "    "
+                            + Board.getAt(moveX - 1, moveY).getY());
+                }
+            }*/
+        }
+        return false;
+    }
+
+    @Override
+    public boolean collide(Entity a) {
+        if (a != null) {
+            return x >= a.getX() && x <= a.getX() + 28 && y <= a.getY() + 28 && y >= a.getY()
+                    || (x >= a.getX() && x <= a.getX() + 28 && y + 28 >= a.getY() && y + 28 <= a.getY() + 28)
+                    || (x + 28 >= a.getX() && x + 28 <= a.getX() + 28 && y >= a.getY() && y <= a.getY() + 28)
+                    || (x + 28 >= a.getX() && x + 28 <= a.getX() + 28 && y + 28 >= a.getY() && y + 28 <= a.getY() + 28);
+        }
+        return false;
     }
 
     private void chooseSprite() {

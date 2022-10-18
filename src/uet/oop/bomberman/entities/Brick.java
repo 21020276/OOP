@@ -11,4 +11,19 @@ public class Brick extends Entity {
     public void update() {
 
     }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public boolean collide(Entity e) {
+        return false;
+    }
 }

@@ -12,4 +12,17 @@ public class Wall extends Entity {
     public void update() {
 
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public boolean collide(Entity e) {
+        return false;
+    }
 }

@@ -21,4 +21,19 @@ public class Balloon extends Entity {
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public boolean collide(Entity e) {
+        return false;
+    }
 }

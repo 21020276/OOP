@@ -26,6 +26,7 @@ public class BombermanGame extends Application {
     public static final int HEIGHT = 15;
     public static final int TILES_SIZE = 16;
     private GraphicsContext gc;
+    public Board board = new Board();
     private Canvas canvas;
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
@@ -142,17 +143,19 @@ public class BombermanGame extends Application {
                 switch (s.charAt(j)) {
                     case '#' :
                         object = new Wall(j, i, Sprite.wall.getFxImage());
-                        stillObjects.add(object);
+                        board.entities.add(object);
+                        System.out.println(j + " " + i);
                         break;
                     case '*' :
                         object = new Brick(j, i, Sprite.brick.getFxImage());
+                        board.entities.add(object);
+                        System.out.println(j + " " + i);
                         break;
                     case 'x' :
                         object = new Portal(j, i, Sprite.portal.getFxImage());
                         break;
                     case '1' :
                         Balloon balloon = new Balloon(j, i, Sprite.balloom_right1.getFxImage());
-
                         entities.add(balloon);
                         break;
                     case '2' :
@@ -161,6 +164,7 @@ public class BombermanGame extends Application {
                     default:
                         break;
                 }
+
                 stillObjects.add(object);
             }
         }

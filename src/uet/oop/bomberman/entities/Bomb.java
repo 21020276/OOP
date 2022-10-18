@@ -53,4 +53,9 @@ public class Bomb extends Entity {
     public boolean isBlow() {
         return blow;
     }
+
+    @Override
+    public boolean collide(Entity e) {
+        return false;
+    }
 }
