@@ -12,9 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +20,8 @@ import java.util.Scanner;
 
 public class BombermanGame extends Application {
     
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
+    public static final int WIDTH = 32;
+    public static final int HEIGHT = 13;
     public static final int TILES_SIZE = 16;
     private GraphicsContext gc;
     public Board board = new Board();
@@ -96,7 +94,7 @@ public class BombermanGame extends Application {
                         bomberman.setMoveDown(true);
                         break;
                     case SPACE:
-                        bomberman.plantbomb(bomberman.getX() / 32, bomberman.getY() / 32);
+                        bomberman.plantbomb((bomberman.getX() + 16 )/ 32, (bomberman.getY() + 21 )/ 32);
                         break;
                     default:
                         break;

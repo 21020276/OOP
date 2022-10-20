@@ -1,11 +1,8 @@
 package uet.oop.bomberman.entities;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.graphics.Sprite;
-
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,7 +105,7 @@ public class Bomber extends Entity {
         if(isMoveRight()) xa++;
 
         if(xa != 0 || ya != 0)  {
-            move(xa * 1, ya * 1);
+            move(xa, ya);
             _moving = true;
         } else {
             _moving = false;
@@ -141,36 +138,49 @@ public class Bomber extends Entity {
             } else if (xa > 0) {
                 moveX = x / 32 + 1;
             }
-            moveY = y / 32;
-            if (Board.getAt(moveX, moveY) == null) {
-                if (!this.collide(Board.getAt(moveX, moveY + 1))
-                    && !this.collide(Board.getAt(moveX, moveY - 1))) {
-                    return true;
-                }/* else {
-                    System.out.println("x  " + x + "     y" + y);
-                    if (Board.getAt(moveX, moveY + 1) != null) {
-                        System.out.println(Board.getAt(moveX, moveY + 1).getX() + "    "
-                            + Board.getAt(moveX, moveY + 1).getY());
-                    }
-                    if (Board.getAt(moveX, moveY - 1) != null) {
-                        System.out.println(Board.getAt(moveX, moveY - 1).getX() + "    "
-                            + Board.getAt(moveX, moveY - 1).getY());
-                    }
-                }*/
+            if (y % 32 > 32 * 2 / 3) {
+                moveY = y / 32 + 1;
+            } else {
+                moveY = y / 32;
             }
+            if (Board.getAt(moveX, moveY) == null) {
+                while (this.collide(Board.getAt(moveX, moveY + 1))) {
+                    y--;
+                }
+                while (this.collide(Board.getAt(moveX, moveY - 1))) {
+                    y++;
+                }
+                return true;
+            }/* else {
+                System.out.println("x  " + x + "     y" + y);
+                if (Board.getAt(moveX, moveY + 1) != null) {
+                    System.out.println(Board.getAt(moveX, moveY + 1).getX() + "    " + Board.getAt(moveX, moveY + 1).getY());
+                    }
+                if (Board.getAt(moveX, moveY - 1) != null) {
+                    System.out.println(Board.getAt(moveX, moveY - 1).getX() + "    " + Board.getAt(moveX, moveY - 1).getY());
+                    }
+            }*/
         }
+
         if (xa == 0 && ya != 0) {
             if (ya < 0) {
                 moveY = (y - 1) / 32;
             } else if (ya > 0){
                 moveY = y / 32 + 1;
             }
-            moveX = x / 32;
+            if (x % 32 > 32 * 2 / 3) {
+                moveX = x / 32 + 1;
+            } else {
+                moveX = x / 32;
+            }
             if (Board.getAt(moveX, moveY) == null) {
-                if (!this.collide(Board.getAt(moveX + 1, moveY))
-                        && !this.collide(Board.getAt(moveX - 1, moveY))) {
-                    return true;
+                while (this.collide(Board.getAt(moveX + 1, moveY))) {
+                    x--;
                 }
+                while (this.collide(Board.getAt(moveX - 1, moveY))) {
+                    x++;
+                }
+                return true;
             }/* else {
                 System.out.println("x  " + x + "     y" + y);
                 if (Board.getAt(moveX + 1, moveY) != null) {
@@ -189,10 +199,10 @@ public class Bomber extends Entity {
     @Override
     public boolean collide(Entity a) {
         if (a != null) {
-            return x >= a.getX() && x <= a.getX() + 28 && y <= a.getY() + 28 && y >= a.getY()
-                    || (x >= a.getX() && x <= a.getX() + 28 && y + 28 >= a.getY() && y + 28 <= a.getY() + 28)
-                    || (x + 28 >= a.getX() && x + 28 <= a.getX() + 28 && y >= a.getY() && y <= a.getY() + 28)
-                    || (x + 28 >= a.getX() && x + 28 <= a.getX() + 28 && y + 28 >= a.getY() && y + 28 <= a.getY() + 28);
+            return x + 2 >= a.getX() && x + 2 <= a.getX() + 29 && y + 2 <= a.getY() + 29 && y + 2 >= a.getY()
+                    || (x + 2 >= a.getX() && x + 2 <= a.getX() + 29 && y + 29 >= a.getY() && y + 29 <= a.getY() + 29)
+                    || (x + 29 >= a.getX() && x + 29 <= a.getX() + 29 && y + 2 >= a.getY() && y + 2 <= a.getY() + 29)
+                    || (x + 29 >= a.getX() && x + 29 <= a.getX() + 29 && y + 29 >= a.getY() && y + 29 <= a.getY() + 29);
         }
         return false;
     }
