@@ -40,6 +40,7 @@ public class Bomber extends Entity {
 
             }
             explosionList.forEach(g -> g.render(gc));
+            explosionList.forEach(g -> g.setExplodeSurrounds());
             if (explosionList.size() > 0 && explosionList.get(0).isStop()) {
                 explosionList.remove(0);
             }
