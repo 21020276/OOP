@@ -17,6 +17,7 @@ public class ExplodeSurround extends Entity{
     @Override
     public void update() {
         animate();
+
     }
 
     @Override

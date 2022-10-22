@@ -141,16 +141,15 @@ public class BombermanGame extends Application {
                 switch (s.charAt(j)) {
                     case '#' :
                         object = new Wall(j, i, Sprite.wall.getFxImage());
-                        board.entities.add(object);
-                        System.out.println(j + " " + i);
+                        Board.entities.add(object);
                         break;
                     case '*' :
                         object = new Brick(j, i, Sprite.brick.getFxImage());
-                        board.entities.add(object);
-                        System.out.println(j + " " + i);
+                        Board.entities.add(object);
                         break;
                     case 'x' :
                         object = new Portal(j, i, Sprite.portal.getFxImage());
+                        stillObjects.add(object);
                         break;
                     case '1' :
                         Balloon balloon = new Balloon(j, i, Sprite.balloom_right1.getFxImage());
@@ -158,12 +157,11 @@ public class BombermanGame extends Application {
                         break;
                     case '2' :
                         object = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
+                        stillObjects.add(object);
                         break;
                     default:
                         break;
                 }
-
-                stillObjects.add(object);
             }
         }
     }
@@ -171,12 +169,14 @@ public class BombermanGame extends Application {
     public void update() {
         entities.forEach(Entity::update);
         stillObjects.forEach(Entity::update);
+        Board.entities.forEach(Entity::update);
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
+        Board.entities.forEach(g -> g.render(gc));
     }
 
     public int getWidth() {

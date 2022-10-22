@@ -16,7 +16,7 @@ public class Bomber extends Entity {
     protected boolean isAlive = true;
     protected List<Bomb> bombList = new ArrayList<>();
     protected List<Explosion> explosionList = new ArrayList<>();
-    protected int totalBomb = 1;
+    protected int totalBomb = 2;
 
     protected void animate() {
         if(_animate < MAX_ANIMATE) _animate++;
@@ -40,7 +40,6 @@ public class Bomber extends Entity {
 
             }
             explosionList.forEach(g -> g.render(gc));
-            explosionList.forEach(g -> g.setExplodeSurrounds());
             if (explosionList.size() > 0 && explosionList.get(0).isStop()) {
                 explosionList.remove(0);
             }
@@ -255,6 +254,6 @@ public class Bomber extends Entity {
         sprite = Sprite.bomb_exploded;
         Explosion e = new Explosion(xa, ya, sprite.getFxImage());
         explosionList.add(e);
-
+        e.setExplodeSurrounds();
     }
 }
