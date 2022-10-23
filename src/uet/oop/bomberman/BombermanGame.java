@@ -32,12 +32,10 @@ public class BombermanGame extends Application {
     private int level;
     private int row;
     private int col;
-    private boolean right = false;
-    private int speed = 4;
     private int playerX = 1;
     private int playerY = 1;
     protected Sprite sprite;
-    public static List<Item> speedItemList = new ArrayList<>();
+    public static List<Item> itemList = new ArrayList<>();
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -161,7 +159,17 @@ public class BombermanGame extends Application {
                     case 's' :
                         object = new Brick(j, i, Sprite.brick.getFxImage());
                         Board.entities.add(object);
-                        speedItemList.add(new SpeedItem(j, i, Sprite.powerup_speed.getFxImage()));
+                        itemList.add(new SpeedItem(j, i, Sprite.powerup_speed.getFxImage()));
+                        break;
+                    case 'f' :
+                        object = new Brick(j, i, Sprite.brick.getFxImage());
+                        Board.entities.add(object);
+                        itemList.add(new RadiusItem(j, i, Sprite.powerup_flames.getFxImage()));
+                        break;
+                    case 'b' :
+                        object = new Brick(j, i, Sprite.brick.getFxImage());
+                        Board.entities.add(object);
+                        itemList.add(new BombItem(j, i, Sprite.powerup_bombs.getFxImage()));
                         break;
                     default:
                         break;
@@ -173,14 +181,14 @@ public class BombermanGame extends Application {
     public void update() {
         entities.forEach(Entity::update);
         stillObjects.forEach(Entity::update);
-        speedItemList.forEach(Item::update);
+        itemList.forEach(Item::update);
         Board.entities.forEach(Entity::update);
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
-        speedItemList.forEach(g -> g.render(gc));
+        itemList.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
         Board.entities.forEach(g -> g.render(gc));
     }

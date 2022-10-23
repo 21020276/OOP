@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class Bomber extends Entity {
     protected int _direction = -1;
     protected boolean _moving = false;
     protected int _animate = 0;
-    protected final int MAX_ANIMATE = 7500; //save the animation status and dont let this get too big
+    protected final int MAX_ANIMATE = 7500;
     protected boolean isAlive = true;
     protected List<Bomb> bombList = new ArrayList<>();
     protected List<Explosion> explosionList = new ArrayList<>();
@@ -53,6 +54,7 @@ public class Bomber extends Entity {
     @Override
     public void update() {
         animate();
+        checkItem();
         calculateMove();
         bombList.forEach(Bomb::update);
         explosionList.forEach(Entity::update);
@@ -255,5 +257,22 @@ public class Bomber extends Entity {
 
     public void updateRadius() {
         Explosion.upRadius();
+    }
+
+    public void checkItem() {
+        for (int i = 0; i < BombermanGame.itemList.size(); i++) {
+            if (this.collide(BombermanGame.itemList.get(i))) {
+                if (BombermanGame.itemList.get(i) instanceof SpeedItem) {
+                    updateSpeed();
+                }
+                if (BombermanGame.itemList.get(i) instanceof RadiusItem) {
+                    updateRadius();
+                }
+                if (BombermanGame.itemList.get(i) instanceof BombItem) {
+                    updateBomb();
+                }
+                BombermanGame.itemList.remove(i);
+            }
+        }
     }
 }
