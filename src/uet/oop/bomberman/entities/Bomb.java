@@ -56,6 +56,6 @@ public class Bomb extends Entity {
 
     @Override
     public boolean collide(Entity e) {
-        return false;
+        return this.y == e.getY() && this.x == e.getX();
     }
 }

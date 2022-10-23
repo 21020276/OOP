@@ -16,7 +16,8 @@ public class Bomber extends Entity {
     protected boolean isAlive = true;
     protected List<Bomb> bombList = new ArrayList<>();
     protected List<Explosion> explosionList = new ArrayList<>();
-    protected int totalBomb = 2;
+    protected static int totalBomb = 2;
+    protected static int SPEED = 1;
 
     protected void animate() {
         if(_animate < MAX_ANIMATE) _animate++;
@@ -105,7 +106,7 @@ public class Bomber extends Entity {
         if(isMoveRight()) xa++;
 
         if(xa != 0 || ya != 0)  {
-            move(xa, ya);
+            move(xa * SPEED, ya * SPEED);
             _moving = true;
         } else {
             _moving = false;
@@ -222,7 +223,9 @@ public class Bomber extends Entity {
         if (bombList.size() < totalBomb) {
             sprite = Sprite.bomb;
             Bomb b = new Bomb(xa, ya, Sprite.bomb.getFxImage());
-            bombList.add(b);
+            if (checkValidBomb(b)) {
+                bombList.add(b);
+            }
         }
     }
 
@@ -231,5 +234,26 @@ public class Bomber extends Entity {
         Explosion e = new Explosion(xa, ya, sprite.getFxImage());
         explosionList.add(e);
         e.setExplodeSurrounds();
+    }
+
+    public boolean checkValidBomb(Bomb bomb) {
+        for (Bomb _bomb : bombList) {
+            if (_bomb.collide(bomb)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void updateSpeed() {
+        SPEED++;
+    }
+
+    public void updateBomb() {
+        totalBomb++;
+    }
+
+    public void updateRadius() {
+        Explosion.upRadius();
     }
 }

@@ -13,7 +13,7 @@ public class Explosion extends Entity {
     private int timer = 20;
     private static final int TIME_EXPLODING = 20;
     private boolean stop = false;
-    private int radius = 3;
+    protected static int RADIUS = 1;
     private List<ExplodeSurround> explodeSurroundList = new ArrayList<>();
     private boolean[] check = new boolean[4];
     private boolean destroy = false;
@@ -44,7 +44,7 @@ public class Explosion extends Entity {
         explodeSurroundList.forEach(g -> g.render(gc));
         b.forEach(g -> g.render(gc));
         if (b.size() > 0 && b.get(0).isStop()) {
-            System.out.println(b.size());
+
             b.remove(0);
         }
     }
@@ -74,8 +74,8 @@ public class Explosion extends Entity {
         for (int i = 0 ; i < 4; i++) {
             check[i] = false;
         }
-        for (int i = 0; i < radius * 4; i++) {
-            if (i >= radius * 4 - 4) {
+        for (int i = 0; i < RADIUS * 4; i++) {
+            if (i >= RADIUS * 4 - 4) {
                 checkLast = true;
             }
             if (!check[i % 4]) {
@@ -149,4 +149,7 @@ public class Explosion extends Entity {
         }
     }
 
+    public static void upRadius() {
+        RADIUS++;
+    }
 }
