@@ -18,7 +18,7 @@ public class Bomber extends Entity {
     protected List<Bomb> bombList = new ArrayList<>();
     protected List<Explosion> explosionList = new ArrayList<>();
     protected static int totalBomb = 2;
-    protected static int SPEED = 1;
+    protected static int SPEED = 3;
 
     protected void animate() {
         if(_animate < MAX_ANIMATE) _animate++;

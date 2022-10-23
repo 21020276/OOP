@@ -2,19 +2,21 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Board;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Balloon extends Entity {
-    private boolean isMove = false;
+    private int timer = 40;
+    private boolean stop = false;
+
+
     public Balloon(int x, int y, Image img) {
         super(x, y, img);
     }
 
     @Override
     public void update() {
-        sprite = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, _animate, 20);
         animate();
-
     }
 
     @Override
@@ -36,4 +38,5 @@ public class Balloon extends Entity {
     public boolean collide(Entity e) {
         return false;
     }
+
 }

@@ -146,15 +146,18 @@ public class BombermanGame extends Application {
                         break;
                     case 'x' :
                         object = new Portal(j, i, Sprite.portal.getFxImage());
-                        stillObjects.add(object);
+                        //stillObjects.add(object);
+                        Board.entities.add(object);
                         break;
                     case '1' :
                         Balloon balloon = new Balloon(j, i, Sprite.balloom_right1.getFxImage());
-                        entities.add(balloon);
+                        //entities.add(balloon);
+                        Board.entities.add(balloon);
                         break;
                     case '2' :
                         object = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
-                        stillObjects.add(object);
+                        //stillObjects.add(object);
+                        Board.entities.add(object);
                         break;
                     case 's' :
                         object = new Brick(j, i, Sprite.brick.getFxImage());
