@@ -16,10 +16,13 @@ public class Explosion extends Entity {
     private int radius = 3;
     private List<ExplodeSurround> explodeSurroundList = new ArrayList<>();
     private boolean[] check = new boolean[4];
+    private boolean destroy = false;
+    private Entity removeEntity;
+    private List<BrickDestroy> b = new ArrayList<>();
+
     public Explosion(int x, int y, Image img) {
         super(x, y, img);
     }
-    private boolean destroy = false;
 
     @Override
     public void update() {
@@ -30,6 +33,7 @@ public class Explosion extends Entity {
             stop = true;
         }
         explodeSurroundList.forEach(Entity::update);
+        b.forEach(Entity::update);
     }
 
     @Override
@@ -38,7 +42,11 @@ public class Explosion extends Entity {
         img = sprite.getFxImage();
         gc.drawImage(img, x, y);
         explodeSurroundList.forEach(g -> g.render(gc));
-
+        b.forEach(g -> g.render(gc));
+        if (b.size() > 0 && b.get(0).isStop()) {
+            System.out.println(b.size());
+            b.remove(0);
+        }
     }
 
     public boolean isStop() {
@@ -84,9 +92,9 @@ public class Explosion extends Entity {
 
     public void destroy(Entity e) {
         if (e instanceof Brick) {
-            Brick b = (Brick) e;
-            b.setDestroy(true);
-            Board.entities.remove(b);
+             b.add(new BrickDestroy(e.getX() / 32, e.getY() / 32, Sprite.movingSprite(Sprite.brick_exploded,
+                    Sprite.brick_exploded1, Sprite.grass, _animate, 40).getFxImage()));
+             Board.entities.remove(e);
         }
     }
 

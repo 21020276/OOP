@@ -151,15 +151,7 @@ public class Bomber extends Entity {
                     y++;
                 }
                 return true;
-            }/* else {
-                System.out.println("x  " + x + "     y" + y);
-                if (Board.getAt(moveX, moveY + 1) != null) {
-                    System.out.println(Board.getAt(moveX, moveY + 1).getX() + "    " + Board.getAt(moveX, moveY + 1).getY());
-                    }
-                if (Board.getAt(moveX, moveY - 1) != null) {
-                    System.out.println(Board.getAt(moveX, moveY - 1).getX() + "    " + Board.getAt(moveX, moveY - 1).getY());
-                    }
-            }*/
+            }
         }
 
         if (xa == 0 && ya != 0) {
@@ -181,17 +173,7 @@ public class Bomber extends Entity {
                     x++;
                 }
                 return true;
-            }/* else {
-                System.out.println("x  " + x + "     y" + y);
-                if (Board.getAt(moveX + 1, moveY) != null) {
-                    System.out.println(Board.getAt(moveX + 1, moveY).getX() + "    "
-                            + Board.getAt(moveX + 1, moveY).getY());
-                }
-                if (Board.getAt(moveX - 1, moveY) != null) {
-                    System.out.println(Board.getAt(moveX - 1, moveY).getX() + "    "
-                            + Board.getAt(moveX - 1, moveY).getY());
-                }
-            }*/
+            }
         }
         return false;
     }
@@ -213,12 +195,6 @@ public class Bomber extends Entity {
                 sprite = Sprite.player_up;
                 if(_moving) {
                     sprite = Sprite.movingSprite(Sprite.player_up_1, Sprite.player_up_2, _animate, 20);
-                }
-                break;
-            case 1:
-                sprite = Sprite.player_right;
-                if(_moving) {
-                    sprite = Sprite.movingSprite(Sprite.player_right_1, Sprite.player_right_2, _animate, 20);
                 }
                 break;
             case 2:

@@ -6,7 +6,6 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Brick extends Entity {
-    private int timer = 20;
     private boolean destroy = false;
     private boolean remove = false;
     public Brick(int x, int y, Image img) {
@@ -25,7 +24,6 @@ public class Brick extends Entity {
     @Override
     public void update() {
         animate();
-
     }
 
     @Override

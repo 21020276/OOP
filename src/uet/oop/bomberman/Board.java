@@ -40,6 +40,15 @@ public class Board {
         return null;
     }
 
+    public static Entity findEntity(Entity e) {
+        for (Entity b : entities) {
+            if (b.equals(e)) {
+                return b;
+            }
+        }
+        return null;
+    }
+
     public List<Entity> getEntities() {
         return entities;
     }
