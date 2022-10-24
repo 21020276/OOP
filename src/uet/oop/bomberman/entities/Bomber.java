@@ -10,11 +10,14 @@ import java.util.List;
 public class Bomber extends Entity {
     protected Sprite sprite;
     protected boolean moveUp, moveDown, moveLeft, moveRight;
+    private int timer = 40;
+    private boolean stop = false;
+    private boolean goThroughBomb = true;
     protected int _direction = -1;
     protected boolean _moving = false;
     protected int _animate = 0;
     protected final int MAX_ANIMATE = 7500;
-    protected boolean isAlive = true;
+    protected static boolean isAlive = true;
     protected List<Bomb> bombList = new ArrayList<>();
     protected List<Explosion> explosionList = new ArrayList<>();
     protected static int totalBomb = 2;
@@ -34,20 +37,23 @@ public class Bomber extends Entity {
     public void render(GraphicsContext gc) {
         if (isAlive) {
             chooseSprite();
-            gc.drawImage(sprite.getFxImage(), x, y);
-            bombList.forEach(g -> g.render(gc));
-            if (bombList.size() > 0 && bombList.get(0).isBlow()) {
-                explode(bombList.get(0).getX() / 32, bombList.get(0).getY() / 32);
-                bombList.remove(0);
-
-            }
-            explosionList.forEach(g -> g.render(gc));
-            if (explosionList.size() > 0 && explosionList.get(0).isStop()) {
-                explosionList.remove(0);
-            }
+            //bombList.forEach(g -> g.render(gc));
         }
         else {
-            sprite = Sprite.player_dead1;
+            sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, _animate, 20);
+        }
+        gc.drawImage(sprite.getFxImage(), x, y);
+        if (bombList.size() > 0 && bombList.get(0).isBlow()) {
+            explode(bombList.get(0).getX() / 32, bombList.get(0).getY() / 32);
+            Board.entities.remove(bombList.get(0));
+            Board.entities.add(explosionList.get(0));
+            bombList.remove(0);
+
+        }
+        explosionList.forEach(g -> g.render(gc));
+        if (explosionList.size() > 0 && explosionList.get(0).isStop()) {
+            Board.entities.remove(explosionList.get(0));
+            explosionList.remove(0);
         }
     }
 
@@ -55,11 +61,24 @@ public class Bomber extends Entity {
     public void update() {
         animate();
         checkItem();
+        checkAlive();
         calculateMove();
-        bombList.forEach(Bomb::update);
+        if (!isAlive) {
+            if (timer > 0) {
+                timer--;
+            } else {
+                stop = true;
+            }
+        }
+        for (Bomb b : bombList) {
+            b.checkGoThrough(this);
+        }
         explosionList.forEach(Entity::update);
     }
 
+    public boolean isStop() {
+        return stop;
+    }
     public boolean isMoveUp() {
         return moveUp;
     }
@@ -112,7 +131,6 @@ public class Bomber extends Entity {
             _moving = true;
         } else {
             _moving = false;
-
         }
 
     }
@@ -122,7 +140,6 @@ public class Bomber extends Entity {
         if(xa < 0) _direction = 3;
         if(ya > 0) _direction = 2;
         if(ya < 0) _direction = 0;
-
         if(canMove(0, ya)) { //separate the moves for the player can slide when is colliding
             y += ya;
         }
@@ -146,7 +163,8 @@ public class Bomber extends Entity {
             } else {
                 moveY = y / 32;
             }
-            if (Board.getAt(moveX, moveY) == null) {
+            if (Board.getAt(moveX, moveY) == null || ((Board.getAt(moveX, moveY) instanceof Bomb) &&
+                    (((Bomb) Board.getAt(moveX, moveY)).canGoThrough()))) {
                 while (this.collide(Board.getAt(moveX, moveY + 1))) {
                     y--;
                 }
@@ -168,7 +186,8 @@ public class Bomber extends Entity {
             } else {
                 moveX = x / 32;
             }
-            if (Board.getAt(moveX, moveY) == null) {
+            if (Board.getAt(moveX, moveY) == null || ((Board.getAt(moveX, moveY) instanceof Bomb) &&
+                    (((Bomb) Board.getAt(moveX, moveY)).canGoThrough()))) {
                 while (this.collide(Board.getAt(moveX + 1, moveY))) {
                     x--;
                 }
@@ -227,6 +246,7 @@ public class Bomber extends Entity {
             Bomb b = new Bomb(xa, ya, Sprite.bomb.getFxImage());
             if (checkValidBomb(b)) {
                 bombList.add(b);
+                Board.entities.add(b);
             }
         }
     }
@@ -234,6 +254,7 @@ public class Bomber extends Entity {
     public void explode(int xa, int ya) {
         sprite = Sprite.bomb_exploded;
         Explosion e = new Explosion(xa, ya, sprite.getFxImage());
+        goThroughBomb = true;
         explosionList.add(e);
         e.setExplodeSurrounds();
     }
@@ -275,4 +296,14 @@ public class Bomber extends Entity {
             }
         }
     }
+
+    public void checkAlive() {
+        Entity entity = Board.getAt(x / 32, y / 32);
+        if (this.collide(entity)) {
+            if (entity instanceof ExplodeSurround || entity instanceof Explosion) {
+                isAlive = false;
+            }
+        }
+    }
 }
+

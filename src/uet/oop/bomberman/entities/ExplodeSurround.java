@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class ExplodeSurround extends Entity{
+    private int timer = 20;
+    private boolean stop = false;
+
     public ExplodeSurround(int x, int y, Image img) {
         super(x, y, img);
     }
@@ -17,7 +20,16 @@ public class ExplodeSurround extends Entity{
     @Override
     public void update() {
         animate();
+        if (timer > 0) {
+            timer--;
+        } else {
+            stop = true;
+        }
 
+    }
+
+    public boolean isStop() {
+        return stop;
     }
 
     @Override
@@ -37,5 +49,4 @@ public class ExplodeSurround extends Entity{
         }
         return false;
     }
-
 }

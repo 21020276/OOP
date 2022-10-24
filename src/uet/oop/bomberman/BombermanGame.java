@@ -7,13 +7,23 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,9 +33,13 @@ public class BombermanGame extends Application {
     public static final int WIDTH = 32;
     public static final int HEIGHT = 13;
     public static final int TILES_SIZE = 16;
+    private int status = 1;
     private GraphicsContext gc;
     public Board board = new Board();
     private Canvas canvas;
+    private Pane pane;
+    private Scene scene;
+    private Bomber bomberman;
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
     private List<Bomb> bombList = new ArrayList<>();
@@ -41,22 +55,88 @@ public class BombermanGame extends Application {
         Application.launch(BombermanGame.class);
     }
 
+    public void initMainMenu(Pane mainMenuRoot) throws IOException {
+        Rectangle bg = new Rectangle(1280, 720);
+        Font font = Font.font(48);
+
+
+
+
+        Button startButton = new Button("Start");
+        startButton.setFont(font);
+        startButton.setOnAction(event -> gameStart());
+
+        Button exitButton = new Button("Exit");
+        exitButton.setFont(font);
+        exitButton.setOnAction(event -> exit());
+
+        Button continueButton = new Button("Continue");
+        continueButton.setFont(font);
+        continueButton.setOnAction(event -> gameContinue());
+
+        VBox vBox = new VBox(50, startButton, continueButton, exitButton);
+        vBox.setTranslateX(400);
+        vBox.setTranslateY(200);
+
+        pane.getChildren().addAll(bg, vBox);
+    }
+
+    public void exit() {
+        System.out.println("EXIT!");
+    }
+
+    public void gameContinue() {
+        System.out.println("CONTINUE!");
+    }
+
+    public void gameStart() {
+        System.out.println("GAME START!");
+        status = 1;
+    }
+
+    public boolean isGameStart() {
+        return status == 1;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
+
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
 
-        // Tao scene
-        Scene scene = new Scene(root);
+        if (status == 0) {
+            pane = new Pane(root);
+            initMainMenu(pane);
+        }
 
-        // Them scene vao stage
+        /*InputStream is = Files.newInputStream(Paths.get("res/textures/bomberman.png"),);
+        Image img = new Image(is);
+        is.close();
+        ImageView imageView = new ImageView(img);
+
+        pane = new Pane();
+        pane.getChildren().addAll(imageView);
+        scene = new Scene(pane);
         stage.setScene(scene);
-        stage.show();
+        stage.show();*/
+
+
+
+        if (status == 1) {
+            // Tao scene
+            scene = new Scene(root);
+
+            // Them scene vao stage
+            stage.setScene(scene);
+            stage.show();
+        }
+
+
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -69,8 +149,9 @@ public class BombermanGame extends Application {
 
         createMap();
 
-        Bomber bomberman = new Bomber(playerX, playerY, Sprite.player_right.getFxImage());
+        bomberman = new Bomber(playerX, playerY, Sprite.player_right.getFxImage());
         entities.add(bomberman);
+
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -186,6 +267,10 @@ public class BombermanGame extends Application {
         stillObjects.forEach(Entity::update);
         itemList.forEach(Item::update);
         Board.entities.forEach(Entity::update);
+        if (bomberman.isStop()) {
+            //Board.entities.remove(bomberman);
+            entities.remove(bomberman);
+        }
     }
 
     public void render() {
