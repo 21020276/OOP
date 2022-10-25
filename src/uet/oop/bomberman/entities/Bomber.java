@@ -10,10 +10,10 @@ public class Bomber extends Entity {
     protected Sprite sprite;
     protected boolean moveUp, moveDown, moveLeft, moveRight;
     protected int _direction = -1;
-    protected boolean _moving = false;
+    protected boolean _moving = true;
     protected int _animate = 0;
     protected final int MAX_ANIMATE = 7500; //save the animation status and dont let this get too big
-    protected boolean isAlive = true;
+    public boolean isAlive = true;
     protected List<Bomb> bombList = new ArrayList<>();
     protected List<Explosion> explosionList = new ArrayList<>();
     protected static int totalBomb = 2;
@@ -112,7 +112,6 @@ public class Bomber extends Entity {
             _moving = false;
 
         }
-
     }
 
     public void move(double xa, double ya) {

@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -100,6 +101,7 @@ public class Explosion extends Entity {
 
     public ExplodeSurround chooseSprite(int direction, boolean checkLast, int xa, int ya, int length) {
         if (checkLast) {
+            new Sound("sound/bomb_explosion.wav", "explosion");
             if (direction == 0) {
                 return new ExplodeSurround(xa, ya - length, Sprite.movingSprite(Sprite.explosion_vertical_top_last,
                         Sprite.explosion_vertical_top_last1, Sprite.explosion_vertical_top_last2, _animate, TIME_EXPLODING).getFxImage());

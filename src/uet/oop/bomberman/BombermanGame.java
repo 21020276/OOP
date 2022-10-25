@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 import java.io.File;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import static uet.oop.bomberman.Sound.Sound.updateSound;
 
 public class BombermanGame extends Application {
     
@@ -38,6 +40,8 @@ public class BombermanGame extends Application {
     private int playerY = 1;
     protected Sprite sprite;
     public static List<Item> speedItemList = new ArrayList<>();
+
+    public static Bomber _bomber;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -73,6 +77,7 @@ public class BombermanGame extends Application {
 
         Bomber bomberman = new Bomber(playerX, playerY, Sprite.player_right.getFxImage());
         entities.add(bomberman);
+        _bomber = bomberman;
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -94,6 +99,7 @@ public class BombermanGame extends Application {
                         break;
                     case SPACE:
                         bomberman.plantbomb((bomberman.getX() + 16 )/ 32, (bomberman.getY() + 21 )/ 32);
+                        new Sound("sound/put_bombs.wav", "putBomb");
                         break;
                     default:
                         break;
@@ -175,6 +181,7 @@ public class BombermanGame extends Application {
         stillObjects.forEach(Entity::update);
         speedItemList.forEach(Item::update);
         Board.entities.forEach(Entity::update);
+        updateSound();
     }
 
     public void render() {
