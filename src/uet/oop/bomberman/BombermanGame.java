@@ -188,6 +188,7 @@ public class BombermanGame extends Application {
                         break;
                     case SPACE:
                         bomberman.plantbomb((bomberman.getX() + 16 )/ 32, (bomberman.getY() + 21 )/ 32);
+                        new Sound("sound/put_bombs.wav", "putBomb");
                         break;
                     default:
                         break;

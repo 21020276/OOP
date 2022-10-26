@@ -4,6 +4,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Bomber;
 
 public class Score {
 
@@ -22,6 +24,9 @@ public class Score {
     public void updateScore() {
         timeLeft = "Time: " + (int)time;
         text.setText(timeLeft);
-        time -= 1.0 / 50;
+        if (time > 0)
+            time -= 1.0 / 50;
+        if (time <= 0)
+            Bomber.isAlive = false;
     }
 }
