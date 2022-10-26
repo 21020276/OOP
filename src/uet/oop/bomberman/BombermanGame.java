@@ -9,10 +9,16 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import uet.oop.bomberman.Score.Score;
 import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,12 +49,17 @@ public class BombermanGame extends Application {
 
     public static Bomber _bomber;
 
+    Score score;
+
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
 
     @Override
     public void start(Stage stage) throws IOException {
+        //Tao score
+        score = new Score();
+
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
@@ -56,6 +67,7 @@ public class BombermanGame extends Application {
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
+        root.getChildren().add(score.text);
 
         // Tao scene
         Scene scene = new Scene(root);
@@ -63,6 +75,8 @@ public class BombermanGame extends Application {
         // Them scene vao stage
         stage.setScene(scene);
         stage.show();
+
+
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -128,7 +142,16 @@ public class BombermanGame extends Application {
                 }
             }
         });
+
+        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println(mouseEvent.getX() + " " + mouseEvent.getY());
+            }
+        });
     }
+
+
 
     public void createMap() throws IOException {
         File file = new File("target/classes/levels/Level1.txt");
@@ -182,6 +205,7 @@ public class BombermanGame extends Application {
         speedItemList.forEach(Item::update);
         Board.entities.forEach(Entity::update);
         updateSound();
+        score.updateScore();
     }
 
     public void render() {
@@ -190,6 +214,9 @@ public class BombermanGame extends Application {
         speedItemList.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
         Board.entities.forEach(g -> g.render(gc));
+
+        gc.setFill(Color.GRAY);
+        gc.fillRoundRect(607, 0, 160, 30, 10, 10);
     }
 
     public int getWidth() {
