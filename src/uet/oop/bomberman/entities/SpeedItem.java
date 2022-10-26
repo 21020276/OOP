@@ -20,12 +20,12 @@ public class SpeedItem extends Item {
 
     @Override
     public int getX() {
-        return 0;
+        return x;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return y;
     }
 
     @Override

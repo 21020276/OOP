@@ -9,6 +9,7 @@ public class Bomb extends Entity {
     private int time_blow = 120;
     private Explosion e;
     private boolean blow = false;
+    private boolean goThrough = true;
 
 
     public Bomb(int x, int y, Image img) {
@@ -21,13 +22,7 @@ public class Bomb extends Entity {
         if (time_blow > 0) {
             time_blow--;
         } else {
-            if (!blow) {
-                blow();
-            }
-            else {
-                time_blow = 120;
-            }
-
+            blow = true;
         }
     }
 
@@ -46,8 +41,8 @@ public class Bomb extends Entity {
         return y;
     }
 
-    public void blow() {
-        blow = true;
+    public void setBlow(boolean blow) {
+        this.blow = blow;
     }
 
     public boolean isBlow() {
@@ -55,7 +50,22 @@ public class Bomb extends Entity {
     }
 
     @Override
-    public boolean collide(Entity e) {
-        return this.y == e.getY() && this.x == e.getX();
+    public boolean collide(Entity a) {
+        return x + 2 >= a.getX() && x + 2 <= a.getX() + 29 && y + 2 <= a.getY() + 29 && y + 2 >= a.getY()
+                || (x + 2 >= a.getX() && x + 2 <= a.getX() + 29 && y + 29 >= a.getY() && y + 29 <= a.getY() + 29)
+                || (x + 29 >= a.getX() && x + 29 <= a.getX() + 29 && y + 2 >= a.getY() && y + 2 <= a.getY() + 29)
+                || (x + 29 >= a.getX() && x + 29 <= a.getX() + 29 && y + 29 >= a.getY() && y + 29 <= a.getY() + 29);
+    }
+
+    public boolean canGoThrough() {
+        return goThrough;
+    }
+
+    public void checkGoThrough(Entity e) {
+        if (goThrough) {
+            if (!this.collide(e)) {
+                goThrough = false;
+            }
+        }
     }
 }

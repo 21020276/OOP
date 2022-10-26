@@ -21,7 +21,7 @@ public class Balloon extends Entity {
     public int waitTime = 0;
     @Override
     public void update() {
-        //sprite = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, _animate, 20);
+        sprite = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, _animate, 20);
         animate();
         calculateMove();
         Random random = new Random();

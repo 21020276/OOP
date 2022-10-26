@@ -20,6 +20,7 @@ public class Explosion extends Entity {
     private boolean destroy = false;
     private Entity removeEntity;
     private List<BrickDestroy> b = new ArrayList<>();
+    private List<Entity> mob = new ArrayList<>();
 
     public Explosion(int x, int y, Image img) {
         super(x, y, img);
@@ -35,6 +36,7 @@ public class Explosion extends Entity {
         }
         explodeSurroundList.forEach(Entity::update);
         b.forEach(Entity::update);
+        mob.forEach(Entity::update);
     }
 
     @Override
@@ -43,11 +45,15 @@ public class Explosion extends Entity {
         img = sprite.getFxImage();
         gc.drawImage(img, x, y);
         explodeSurroundList.forEach(g -> g.render(gc));
+        if (explodeSurroundList.size() > 0 && explodeSurroundList.get(0).isStop()) {
+            Board.entities.remove(explodeSurroundList.get(0));
+            explodeSurroundList.remove(0);
+        }
         b.forEach(g -> g.render(gc));
         if (b.size() > 0 && b.get(0).isStop()) {
-
             b.remove(0);
         }
+        mob.forEach(g -> g.render(gc));
     }
 
     public boolean isStop() {
@@ -83,6 +89,7 @@ public class Explosion extends Entity {
                 explodeSurround = chooseSprite(i % 4, checkLast, x / 32, y / 32, i / 4 + 1);
                 if (!explodeSurround.collide(chooseEntity(i % 4, x / 32, y / 32, i / 4 + 1))) {
                     explodeSurroundList.add(explodeSurround);
+                    Board.entities.add(explodeSurround);
                 } else {
                     check[i % 4] = true;
                     destroy(chooseEntity(i % 4, x / 32, y / 32, i / 4 + 1));
@@ -96,6 +103,22 @@ public class Explosion extends Entity {
              b.add(new BrickDestroy(e.getX() / 32, e.getY() / 32, Sprite.movingSprite(Sprite.brick_exploded,
                     Sprite.brick_exploded1, Sprite.grass, _animate, 40).getFxImage()));
              Board.entities.remove(e);
+        }
+        if (e instanceof Balloon) {
+            e.img = Sprite.balloom_dead.getFxImage();
+            mob.add(new Balloon(e.getX() / 32, e.getY() / 32, Sprite.movingSprite(Sprite.mob_dead1,
+                    Sprite.mob_dead2, Sprite.mob_dead3, _animate, 40).getFxImage()));
+            Board.entities.remove(e);
+
+        }
+        if (e instanceof Oneal) {
+            e.img = Sprite.oneal_dead.getFxImage();
+            mob.add(new Oneal(e.getX() / 32, e.getY() / 32, Sprite.movingSprite(Sprite.mob_dead1,
+                    Sprite.mob_dead2, Sprite.mob_dead3, _animate, 40).getFxImage()));
+            Board.entities.remove(e);
+        }
+        if (e instanceof Bomb) {
+            ((Bomb) e).setBlow(true);
         }
     }
 
