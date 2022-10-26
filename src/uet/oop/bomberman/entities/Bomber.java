@@ -45,10 +45,11 @@ public class Bomber extends Entity {
         gc.drawImage(sprite.getFxImage(), x, y);
         if (bombList.size() > 0 && bombList.get(0).isBlow()) {
             explode(bombList.get(0).getX() / 32, bombList.get(0).getY() / 32);
+            if ((x + 16) / 32 == bombList.get(0).getX() / 32 && (y + 16) / 32 == bombList.get(0).getY() / 32) {
+                isAlive = false;
+            }
             Board.entities.remove(bombList.get(0));
-            Board.entities.add(explosionList.get(0));
             bombList.remove(0);
-
         }
         explosionList.forEach(g -> g.render(gc));
         if (explosionList.size() > 0 && explosionList.get(0).isStop()) {
@@ -256,6 +257,7 @@ public class Bomber extends Entity {
         Explosion e = new Explosion(xa, ya, sprite.getFxImage());
         goThroughBomb = true;
         explosionList.add(e);
+        //Board.entities.add(e);
         e.setExplodeSurrounds();
     }
 
@@ -298,7 +300,7 @@ public class Bomber extends Entity {
     }
 
     public void checkAlive() {
-        Entity entity = Board.getAt(x / 32, y / 32);
+        Entity entity = Board.getAt((x + 16) / 32, (y + 16) / 32);
         if (this.collide(entity)) {
             if (entity instanceof ExplodeSurround || entity instanceof Explosion) {
                 isAlive = false;

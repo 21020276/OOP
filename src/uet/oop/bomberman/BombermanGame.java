@@ -60,8 +60,6 @@ public class BombermanGame extends Application {
         Font font = Font.font(48);
 
 
-
-
         Button startButton = new Button("Start");
         startButton.setFont(font);
         startButton.setOnAction(event -> gameStart());
@@ -133,6 +131,7 @@ public class BombermanGame extends Application {
 
             // Them scene vao stage
             stage.setScene(scene);
+            stage.setTitle("BOMBERMAN");
             stage.show();
         }
 
@@ -160,7 +159,6 @@ public class BombermanGame extends Application {
                 switch (keyCode) {
                     case A:
                         bomberman.setMoveLeft(true);
-
                         break;
                     case D:
                         bomberman.setMoveRight(true);
