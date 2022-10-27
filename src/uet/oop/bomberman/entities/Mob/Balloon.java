@@ -7,7 +7,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Random;
 
-public class Balloon extends MobMove {
+public class Balloon extends Mob {
     public Balloon(int x, int y, Image img) {
         super(x, y, img);
         sprite = Sprite.balloom_right1;
