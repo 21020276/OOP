@@ -23,6 +23,7 @@ public class Balloon extends Mob {
         Random random = new Random();
         int direction = random.nextInt(4);
         if (waitTime > 0) waitTime--;
+        if (waitTime == 0)         System.out.println(BombermanGame._bomber.getX()/32 + " " + BombermanGame._bomber.getY()/32);
         if (waitTime == 0)
         switch (direction) {
             case 0:

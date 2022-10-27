@@ -10,10 +10,13 @@ import uet.oop.bomberman.entities.Player.Bomber;
 public class Score {
 
     private boolean thisGameOver = false;
+    private boolean winGame = false;
     private String timeLeft;
     private double time = 150;
     public Text text = new Text();
     public Text gameOver = new Text();
+
+    public Text youWon = new Text();
     public Score() {
         //text.setSelectionFill(Color.WHITE);
         text.setFill(Color.WHITE);
@@ -30,6 +33,14 @@ public class Score {
         gameOver.setWrappingWidth(400);
         gameOver.setFont(Font.font(140));
         gameOver.setText("Game Over!!!!");
+
+        youWon.setFill(Color.BLACK);
+        youWon.setX(350);
+        youWon.setY(170);
+        youWon.setTextAlignment(TextAlignment.CENTER);
+        youWon.setWrappingWidth(400);
+        youWon.setFont(Font.font(140));
+        youWon.setText("You Won!!!");
     }
 
     public void updateScore() {
@@ -37,7 +48,12 @@ public class Score {
             System.out.println("die");
             if (!Bomber.isAlive) BombermanGame.root.getChildren().add(gameOver);
             thisGameOver = true;
-        } else if (!thisGameOver){
+        } else if (BombermanGame.HasWon && !winGame) {
+            System.out.println("win");
+            BombermanGame.root.getChildren().add(youWon);
+            winGame = true;
+        }
+        else if (!thisGameOver && !winGame) {
             timeLeft = "Time: " + (int)time;
             text.setText(timeLeft);
             if (time > 0)

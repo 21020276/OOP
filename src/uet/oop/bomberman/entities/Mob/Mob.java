@@ -89,8 +89,6 @@ public abstract class Mob extends Entity {
 
         if(canMove(0, ya)) { //separate the moves for the player can slide when is colliding
             y++;
-
-            System.out.println(y);
         }
 
         if(canMove(xa, 0)) {
