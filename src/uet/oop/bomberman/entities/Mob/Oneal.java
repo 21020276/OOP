@@ -93,11 +93,6 @@ public class Oneal extends Mob {
 
     @Override
     public void render(GraphicsContext gc) {
-        if (isAlive) {
-            chooseSprite();
-            gc.drawImage(sprite.getFxImage(), x, y);
-        } else {
-            sprite = Sprite.oneal_dead;
-        }
+        gc.drawImage(img, x, y);
     }
 }

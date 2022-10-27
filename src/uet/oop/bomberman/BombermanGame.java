@@ -154,53 +154,57 @@ public class BombermanGame extends Application {
             entities.add(bomberman);
             _bomber = bomberman;
 
-
+            if (Bomber.isAlive) {
             scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
                 @Override
                 public void handle(javafx.scene.input.KeyEvent event) {
-                    KeyCode keyCode = event.getCode();
-                    switch (keyCode) {
-                        case A:
-                            bomberman.setMoveLeft(true);
+                    if (Bomber.isAlive) {
+                        KeyCode keyCode = event.getCode();
+                        switch (keyCode) {
+                            case A:
+                                bomberman.setMoveLeft(true);
 
-                            break;
-                        case D:
-                            bomberman.setMoveRight(true);
-                            break;
-                        case W:
-                            bomberman.setMoveUp(true);
-                            break;
-                        case S:
-                            bomberman.setMoveDown(true);
-                            break;
-                        case SPACE:
-                            bomberman.plantbomb((bomberman.getX() + 16) / 32, (bomberman.getY() + 21) / 32);
-                            new Sound("sound/put_bombs.wav", "putBomb");
-                            break;
-                        default:
-                            break;
+                                break;
+                            case D:
+                                bomberman.setMoveRight(true);
+                                break;
+                            case W:
+                                bomberman.setMoveUp(true);
+                                break;
+                            case S:
+                                bomberman.setMoveDown(true);
+                                break;
+                            case SPACE:
+                                bomberman.plantbomb((bomberman.getX() + 16) / 32, (bomberman.getY() + 21) / 32);
+                                new Sound("sound/put_bombs.wav", "putBomb");
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             });
             scene.setOnKeyReleased(new EventHandler<javafx.scene.input.KeyEvent>() {
                 @Override
                 public void handle(javafx.scene.input.KeyEvent event) {
-                    KeyCode keyCode = event.getCode();
-                    switch (keyCode) {
-                        case A:
-                            bomberman.setMoveLeft(false);
-                            break;
-                        case D:
-                            bomberman.setMoveRight(false);
-                            break;
-                        case W:
-                            bomberman.setMoveUp(false);
-                            break;
-                        case S:
-                            bomberman.setMoveDown(false);
-                            break;
-                        default:
-                            break;
+                    if (Bomber.isAlive) {
+                        KeyCode keyCode = event.getCode();
+                        switch (keyCode) {
+                            case A:
+                                bomberman.setMoveLeft(false);
+                                break;
+                            case D:
+                                bomberman.setMoveRight(false);
+                                break;
+                            case W:
+                                bomberman.setMoveUp(false);
+                                break;
+                            case S:
+                                bomberman.setMoveDown(false);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             });
@@ -209,6 +213,7 @@ public class BombermanGame extends Application {
                 public void handle(MouseEvent mouseEvent) {
                 }
             });
+            }
         }
     }
 

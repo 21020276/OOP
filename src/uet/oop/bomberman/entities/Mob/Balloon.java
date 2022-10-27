@@ -23,7 +23,7 @@ public class Balloon extends Mob {
         Random random = new Random();
         int direction = random.nextInt(4);
         if (waitTime > 0) waitTime--;
-        if (waitTime == 0)         System.out.println(BombermanGame._bomber.getX()/32 + " " + BombermanGame._bomber.getY()/32);
+
         if (waitTime == 0)
         switch (direction) {
             case 0:
@@ -83,12 +83,7 @@ public class Balloon extends Mob {
     }
     @Override
     public void render(GraphicsContext gc) {
-        if (isAlive) {
-            chooseSprite();
-            gc.drawImage(sprite.getFxImage(), x, y);
-        } else {
-            sprite = Sprite.balloom_dead;
-        }
+        gc.drawImage(img, x, y);
     }
 
 }

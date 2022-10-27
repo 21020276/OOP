@@ -62,6 +62,7 @@ public class Explosion extends Entity {
             b.remove(0);
         }
         mob.forEach(g -> g.render(gc));
+        System.out.println(mob.size());
     }
 
     public boolean isStop() {
