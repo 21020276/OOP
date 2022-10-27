@@ -62,7 +62,12 @@ public class BombermanGame extends Application {
 
     public static Bomber _bomber;
 
+
+    public static Group root = new Group();
+
     Score score;
+
+    public static boolean HasWon = false;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -119,7 +124,6 @@ public class BombermanGame extends Application {
         gc = canvas.getGraphicsContext2D();
 
         // Tao root container
-        Group root = new Group();
         root.getChildren().add(canvas);
         root.getChildren().add(score.text);
 
