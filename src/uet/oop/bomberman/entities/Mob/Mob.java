@@ -4,8 +4,8 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.entities.Entity;
 
-public abstract class MobMove extends Entity {
-    public MobMove(int xUnit, int yUnit, Image img) {
+public abstract class Mob extends Entity {
+    public Mob(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
     }
 
@@ -83,11 +83,14 @@ public abstract class MobMove extends Entity {
         if(ya < 0) _direction = 0;
 
         if(canMove(0, ya)) { //separate the moves for the player can slide when is colliding
-            y += ya;
+            y++;
+
+            System.out.println(y);
         }
 
         if(canMove(xa, 0)) {
-            x += xa;
+
+            x+=1;
         }
     }
 
@@ -106,10 +109,13 @@ public abstract class MobMove extends Entity {
                 moveY = y / 32;
             }
             if (Board.getAt(moveX, moveY) == null) {
-                if (!this.collide(Board.getAt(moveX, moveY + 1))
-                        && !this.collide(Board.getAt(moveX, moveY - 1))) {
-                    return true;
+                while (this.collide(Board.getAt(moveX, moveY + 1))) {
+                    y--;
                 }
+                while (this.collide(Board.getAt(moveX, moveY - 1))) {
+                    y++;
+                }
+                return true;
             }
         }
 
@@ -125,9 +131,11 @@ public abstract class MobMove extends Entity {
                 moveX = x / 32;
             }
             if (Board.getAt(moveX, moveY) == null) {
-                if (!this.collide(Board.getAt(moveX + 1, moveY))
-                        && !this.collide(Board.getAt(moveX - 1, moveY))) {
-                    return true;
+                while (this.collide(Board.getAt(moveX + 1, moveY))) {
+                    x--;
+                }
+                while (this.collide(Board.getAt(moveX - 1, moveY))) {
+                    x++;
                 }
             }
         }

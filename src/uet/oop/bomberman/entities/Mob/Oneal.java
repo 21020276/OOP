@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Oneal extends MobMove {
+public class Oneal extends Mob {
 
     public Oneal(int x, int y, Image img) {
         super(x, y, img);
