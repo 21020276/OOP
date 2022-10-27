@@ -1,14 +1,11 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.Mob;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
-import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.entities.Entity;
 
-import java.util.Random;
-
-public abstract class Movable extends Entity {
-    public Movable(int xUnit, int yUnit, Image img) {
+public abstract class MobMove extends Entity {
+    public MobMove(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
     }
 
@@ -109,13 +106,10 @@ public abstract class Movable extends Entity {
                 moveY = y / 32;
             }
             if (Board.getAt(moveX, moveY) == null) {
-                while (this.collide(Board.getAt(moveX, moveY + 1))) {
-                    y--;
+                if (!this.collide(Board.getAt(moveX, moveY + 1))
+                        && !this.collide(Board.getAt(moveX, moveY - 1))) {
+                    return true;
                 }
-                while (this.collide(Board.getAt(moveX, moveY - 1))) {
-                    y++;
-                }
-                return true;
             }
         }
 
@@ -131,13 +125,10 @@ public abstract class Movable extends Entity {
                 moveX = x / 32;
             }
             if (Board.getAt(moveX, moveY) == null) {
-                while (this.collide(Board.getAt(moveX + 1, moveY))) {
-                    x--;
+                if (!this.collide(Board.getAt(moveX + 1, moveY))
+                        && !this.collide(Board.getAt(moveX - 1, moveY))) {
+                    return true;
                 }
-                while (this.collide(Board.getAt(moveX - 1, moveY))) {
-                    x++;
-                }
-                return true;
             }
         }
         return false;
@@ -146,11 +137,13 @@ public abstract class Movable extends Entity {
     @Override
     public boolean collide(Entity a) {
         if (a != null) {
-            return x + 2 >= a.getX() && x + 2 <= a.getX() + 29 && y + 2 <= a.getY() + 29 && y + 2 >= a.getY()
-                    || (x + 2 >= a.getX() && x + 2 <= a.getX() + 29 && y + 29 >= a.getY() && y + 29 <= a.getY() + 29)
-                    || (x + 29 >= a.getX() && x + 29 <= a.getX() + 29 && y + 2 >= a.getY() && y + 2 <= a.getY() + 29)
-                    || (x + 29 >= a.getX() && x + 29 <= a.getX() + 29 && y + 29 >= a.getY() && y + 29 <= a.getY() + 29);
+            return x + 1 >= a.getX() && x + 1 <= a.getX() + 30 && y + 1 <= a.getY() + 30 && y + 1 >= a.getY()
+                    || (x + 1 >= a.getX() && x + 1 <= a.getX() + 30 && y + 30 >= a.getY() && y + 30 <= a.getY() + 30)
+                    || (x + 30 >= a.getX() && x + 30 <= a.getX() + 30 && y + 1 >= a.getY() && y + 1 <= a.getY() + 30)
+                    || (x + 30 >= a.getX() && x + 30 <= a.getX() + 30 && y + 30 >= a.getY() && y + 30 <= a.getY() + 30);
         }
         return false;
     }
+
 }
+

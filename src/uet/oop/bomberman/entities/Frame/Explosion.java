@@ -1,9 +1,15 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.Frame;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Sound.Sound;
+import uet.oop.bomberman.entities.Player.Bomb;
+import uet.oop.bomberman.entities.Brick;
+import uet.oop.bomberman.entities.BrickDestroy;
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.Mob.Balloon;
+import uet.oop.bomberman.entities.Mob.Oneal;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;

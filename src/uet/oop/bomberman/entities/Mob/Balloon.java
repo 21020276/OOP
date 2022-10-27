@@ -1,13 +1,13 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.Mob;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.Board;
+
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Random;
 
-public class Balloon extends Movable {
+public class Balloon extends MobMove {
     public Balloon(int x, int y, Image img) {
         super(x, y, img);
         sprite = Sprite.balloom_right1;
@@ -79,4 +79,5 @@ public class Balloon extends Movable {
             sprite = Sprite.balloom_dead;
         }
     }
+
 }

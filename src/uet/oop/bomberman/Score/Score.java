@@ -1,11 +1,9 @@
 package uet.oop.bomberman.Score;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Bomber;
+import uet.oop.bomberman.entities.Player.Bomber;
 
 public class Score {
 

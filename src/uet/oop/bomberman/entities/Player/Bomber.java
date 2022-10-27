@@ -1,13 +1,19 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Item.BombItem;
+import uet.oop.bomberman.Item.RadiusItem;
+import uet.oop.bomberman.Item.SpeedItem;
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.Frame.ExplodeSurround;
+import uet.oop.bomberman.entities.Frame.Explosion;
 import uet.oop.bomberman.graphics.Sprite;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bomber extends Movable {
+public class Bomber extends PlayerMove {
     protected Sprite sprite;
     protected boolean moveUp, moveDown, moveLeft, moveRight;
     private int timer = 40;

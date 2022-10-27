@@ -1,6 +1,7 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.Item;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.Entity;
 
 public class Item extends Entity {
     public Item(int x, int y, Image img) {

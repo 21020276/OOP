@@ -1,7 +1,9 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.Item;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Item.Item;
+import uet.oop.bomberman.entities.Entity;
 
 public class BombItem extends Item {
 

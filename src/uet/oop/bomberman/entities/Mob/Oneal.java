@@ -1,13 +1,11 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.Mob;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.Random;
-
-public class Oneal extends Movable {
+public class Oneal extends MobMove {
 
     public Oneal(int x, int y, Image img) {
         super(x, y, img);
@@ -21,19 +19,19 @@ public class Oneal extends Movable {
 
         //choose direction with super basic if-else
         int direction = -1;
-        if (x/32 < BombermanGame._bomber.x/32)
+        if (x/32 < BombermanGame._bomber.getX() /32)
             direction = 3;
-        if (x/32 > BombermanGame._bomber.x/32)
+        if (x/32 > BombermanGame._bomber.getX() /32)
             direction = 2;
-        if (y/32 < BombermanGame._bomber.y/32)
+        if (y/32 < BombermanGame._bomber.getY() /32)
             direction = 0;
-        if (y/32 > BombermanGame._bomber.y/32)
+        if (y/32 > BombermanGame._bomber.getY() /32)
             direction = 1;
 
         if (waitTime > 0) waitTime--;
         if (waitTime == 0) {
-            System.out.println("x/32: " + x/32 + "\nBombermanGame._bomber.x/32: " + BombermanGame._bomber.x/32
-                    + "\ny/32: " + y/32 + "\nBombermanGame._bomber.y/32: " + BombermanGame._bomber.y/32 + "\ndirection: " + direction);
+            System.out.println("x/32: " + x/32 + "\nBombermanGame._bomber.x/32: " + BombermanGame._bomber.getX() /32
+                    + "\ny/32: " + y/32 + "\nBombermanGame._bomber.y/32: " + BombermanGame._bomber.getY() /32 + "\ndirection: " + direction);
 
             switch (direction) {
                 case 0:

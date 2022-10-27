@@ -1,10 +1,11 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.Frame;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class ExplodeSurround extends Entity{
+public class ExplodeSurround extends Entity {
     private int timer = 20;
     private boolean stop = false;
 
