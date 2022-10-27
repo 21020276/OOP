@@ -32,9 +32,6 @@ public class Oneal extends Mob {
 
         if (waitTime > 0) waitTime--;
         if (waitTime == 0) {
-            //System.out.println("x/32: " + x/32 + "\nBombermanGame._bomber.x/32: " + BombermanGame._bomber.getX() /32
-              //      + "\ny/32: " + y/32 + "\nBombermanGame._bomber.y/32: " + BombermanGame._bomber.getY() /32 + "\ndirection: " + direction);
-
             switch (direction) {
                 case 0:
                     waitTime = 30;

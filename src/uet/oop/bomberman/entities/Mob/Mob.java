@@ -16,7 +16,8 @@ public abstract class Mob extends Entity {
 
     protected boolean isAlive = true;
 
-    protected abstract void chooseSprite();
+    protected boolean _moving = false;
+    protected boolean moveUp, moveDown, moveLeft, moveRight;
 
     @Override
     public int getX() {
@@ -28,8 +29,6 @@ public abstract class Mob extends Entity {
         return y;
     }
 
-    protected boolean _moving = false;
-    protected boolean moveUp, moveDown, moveLeft, moveRight;
     public boolean isMoveUp() {
         return moveUp;
     }
@@ -89,13 +88,10 @@ public abstract class Mob extends Entity {
 
         if(canMove(0, ya)) { //separate the moves for the player can slide when is colliding
             y++;
-
-            System.out.println(y);
         }
 
         if(canMove(xa, 0)) {
-
-            x+=1;
+            x++;
         }
     }
 
@@ -158,6 +154,9 @@ public abstract class Mob extends Entity {
         return false;
     }
 
+
     public abstract void collideWithPlayer();
+
+    protected abstract void chooseSprite();
 }
 

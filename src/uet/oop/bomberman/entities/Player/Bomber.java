@@ -315,7 +315,6 @@ public class Bomber extends Entity {
     public void checkAlive() {
         Entity entity = Board.getAt((x + 16) / 32, (y + 16) / 32);
         if (this.collide(entity)) {
-            System.out.println((Board.getAt((x + 16) / 32, (y + 16) / 32)));
             if (entity instanceof ExplodeSurround || entity instanceof Explosion
                 || entity instanceof Mob) {
                 isAlive = false;

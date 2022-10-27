@@ -37,8 +37,7 @@ public class Portal extends Entity {
     }
 
     public void checkLevelUp() {
-        System.out.println(x + " " + BombermanGame.bomberman.getX());
-        if (this.collide(BombermanGame.bomberman)) {
+        if (this.collide(BombermanGame.bomberman) && BombermanGame.isMobDead()) {
             System.out.println("LEVEL UP!");
         }
     }
