@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -114,7 +115,7 @@ public class BombermanGame extends Application {
         score = new Score();
 
         // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + 30);
         gc = canvas.getGraphicsContext2D();
 
         // Tao root container
@@ -217,6 +218,12 @@ public class BombermanGame extends Application {
                 }
             }
         });
+        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println(mouseEvent.getX() + " " + mouseEvent.getY());
+            }
+        });
     }
 
     public void createMap() throws IOException {
@@ -298,8 +305,8 @@ public class BombermanGame extends Application {
         entities.forEach(g -> g.render(gc));
         Board.entities.forEach(g -> g.render(gc));
 
-        gc.setFill(Color.GRAY);
-        gc.fillRoundRect(607, 0, 160, 30, 10, 10);
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 415, 993, 30);
     }
 
     public int getWidth() {
