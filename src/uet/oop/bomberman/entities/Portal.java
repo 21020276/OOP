@@ -37,7 +37,7 @@ public class Portal extends Entity {
     }
 
     public void checkLevelUp() {
-        if (this.collide(BombermanGame.bomberman)) {
+        if (this.collide(BombermanGame.bomberman) && BombermanGame.isMobDead()) {
             BombermanGame.HasWon = true;
         }
     }

@@ -43,12 +43,12 @@ public class BombermanGame extends Application {
     public static final int WIDTH = 32;
     public static final int HEIGHT = 13;
     public static final int TILES_SIZE = 16;
-    private int status = 1;
+    private int status = 0;
     private GraphicsContext gc;
     public Board board = new Board();
+    private Scene scene;
     private Canvas canvas;
     private Pane pane;
-    private Scene scene;
     public static Bomber bomberman;
     public static List<Mob> mobList = new ArrayList<>();
     private List<Entity> entities = new ArrayList<>();
@@ -63,7 +63,6 @@ public class BombermanGame extends Application {
     public static List<Item> itemList = new ArrayList<>();
     public static Bomber _bomber;
 
-
     public static Group root = new Group();
 
     Score score;
@@ -75,27 +74,25 @@ public class BombermanGame extends Application {
     }
 
     public void initMainMenu(Pane mainMenuRoot) throws IOException {
-        Rectangle bg = new Rectangle(1280, 720);
         Font font = Font.font(48);
-
 
         Button startButton = new Button("Start");
         startButton.setFont(font);
-        startButton.setOnAction(event -> gameStart());
+        startButton.setOnAction(event ->{
+                    status = 1;
+            try {
+                start(new Stage());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        );
 
-        Button exitButton = new Button("Exit");
-        exitButton.setFont(font);
-        exitButton.setOnAction(event -> exit());
-
-        Button continueButton = new Button("Continue");
-        continueButton.setFont(font);
-        continueButton.setOnAction(event -> gameContinue());
-
-        VBox vBox = new VBox(50, startButton, continueButton, exitButton);
+        VBox vBox = new VBox(50, startButton);
         vBox.setTranslateX(400);
         vBox.setTranslateY(200);
 
-        pane.getChildren().addAll(bg, vBox);
+        mainMenuRoot.getChildren().addAll(canvas, vBox);
     }
 
     public void exit() {
@@ -117,117 +114,102 @@ public class BombermanGame extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        //Tao score
-        score = new Score();
-
-        // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + 30);
-        gc = canvas.getGraphicsContext2D();
-
-        // Tao root container
-        root.getChildren().add(canvas);
-        root.getChildren().add(score.text);
-
         if (status == 0) {
-            pane = new Pane(root);
+            canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + 30);
+            gc = canvas.getGraphicsContext2D();
+            pane = new Pane();
             initMainMenu(pane);
+            scene = new Scene(pane);
+            stage.setScene(scene);
+            stage.show();
         }
 
-        /*InputStream is = Files.newInputStream(Paths.get("res/textures/bomberman.png"),);
-        Image img = new Image(is);
-        is.close();
-        ImageView imageView = new ImageView(img);
-
-        pane = new Pane();
-        pane.getChildren().addAll(imageView);
-        scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.show();*/
-
-
-
         if (status == 1) {
+            score = new Score();
+
+            // Tao root container
+            root.getChildren().add(canvas);
+            root.getChildren().add(score.text);
             // Tao scene
-            scene = new Scene(root);
+            scene.setRoot(root);
 
             // Them scene vao stage
             stage.setScene(scene);
             stage.setTitle("BOMBERMAN");
             stage.show();
+
+
+            AnimationTimer timer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+                    render();
+                    update();
+                }
+            };
+            timer.start();
+
+            createMap();
+
+            bomberman = new Bomber(playerX, playerY, Sprite.player_right.getFxImage());
+            entities.add(bomberman);
+            _bomber = bomberman;
+
+
+            scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(javafx.scene.input.KeyEvent event) {
+                    KeyCode keyCode = event.getCode();
+                    switch (keyCode) {
+                        case A:
+                            bomberman.setMoveLeft(true);
+
+                            break;
+                        case D:
+                            bomberman.setMoveRight(true);
+                            break;
+                        case W:
+                            bomberman.setMoveUp(true);
+                            break;
+                        case S:
+                            bomberman.setMoveDown(true);
+                            break;
+                        case SPACE:
+                            bomberman.plantbomb((bomberman.getX() + 16) / 32, (bomberman.getY() + 21) / 32);
+                            new Sound("sound/put_bombs.wav", "putBomb");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+            scene.setOnKeyReleased(new EventHandler<javafx.scene.input.KeyEvent>() {
+                @Override
+                public void handle(javafx.scene.input.KeyEvent event) {
+                    KeyCode keyCode = event.getCode();
+                    switch (keyCode) {
+                        case A:
+                            bomberman.setMoveLeft(false);
+                            break;
+                        case D:
+                            bomberman.setMoveRight(false);
+                            break;
+                        case W:
+                            bomberman.setMoveUp(false);
+                            break;
+                        case S:
+                            bomberman.setMoveDown(false);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+            scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                }
+            });
         }
-
-
-
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                render();
-                update();
-            }
-        };
-        timer.start();
-
-        createMap();
-
-        bomberman = new Bomber(playerX, playerY, Sprite.player_right.getFxImage());
-        entities.add(bomberman);
-        _bomber = bomberman;
-
-
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(javafx.scene.input.KeyEvent event) {
-                KeyCode keyCode = event.getCode();
-                switch (keyCode) {
-                    case A:
-                        bomberman.setMoveLeft(true);
-
-                        break;
-                    case D:
-                        bomberman.setMoveRight(true);
-                        break;
-                    case W:
-                        bomberman.setMoveUp(true);
-                        break;
-                    case S:
-                        bomberman.setMoveDown(true);
-                        break;
-                    case SPACE:
-                        bomberman.plantbomb((bomberman.getX() + 16 )/ 32, (bomberman.getY() + 21 )/ 32);
-                        new Sound("sound/put_bombs.wav", "putBomb");
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-        scene.setOnKeyReleased(new EventHandler<javafx.scene.input.KeyEvent>() {
-            @Override
-            public void handle(javafx.scene.input.KeyEvent event) {
-                KeyCode keyCode = event.getCode();
-                switch (keyCode) {
-                    case A:
-                        bomberman.setMoveLeft(false);
-                        break;
-                    case D:
-                        bomberman.setMoveRight(false);
-                        break;
-                    case W:
-                        bomberman.setMoveUp(false);
-                        break;
-                    case S:
-                        bomberman.setMoveDown(false);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-            }
-        });
     }
 
     public void createMap() throws IOException {
