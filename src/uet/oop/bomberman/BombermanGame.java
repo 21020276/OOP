@@ -226,13 +226,12 @@ public class BombermanGame extends Application {
         scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                System.out.println(mouseEvent.getX() + " " + mouseEvent.getY());
             }
         });
     }
 
     public void createMap() throws IOException {
-        File file = new File("target/classes/levels/Level1.txt");
+        File file = new File("target/classes/levels/Level2.txt");
         Scanner scanner = new Scanner(file);
         LEVEL = scanner.nextInt();
         row = scanner.nextInt();
@@ -254,9 +253,9 @@ public class BombermanGame extends Application {
                         Board.entities.add(object);
                         break;
                     case 'x' :
-                        object = new Portal(j, i, Sprite.portal.getFxImage());
-                        stillObjects.add(object);
+                        object = new Brick(j, i, Sprite.brick.getFxImage());
                         Board.entities.add(object);
+                        stillObjects.add(new Portal(j, i, Sprite.portal.getFxImage()));
                         break;
                     case '1' :
                         Balloon balloon = new Balloon(j, i, Sprite.balloom_right1.getFxImage());
@@ -301,14 +300,6 @@ public class BombermanGame extends Application {
         if (bomberman.isStop()) {
             entities.remove(bomberman);
         }
-        if (Bomber.numberOfMobKilled == mobList.size()) {
-            for (Entity e : Board.entities) {
-                if (e instanceof Portal) {
-                    Board.entities.remove(e);
-                    break;
-                }
-            }
-        }
         updateSound();
         score.updateScore();
     }
@@ -324,19 +315,7 @@ public class BombermanGame extends Application {
         gc.fillRect(0, 415, 993, 30);
     }
 
-    public int getWidth() {
-        return WIDTH;
-    }
-
-    public int getHeight() {
-        return HEIGHT;
-    }
-
-    public int getTilesSize() {
-        return TILES_SIZE;
-    }
-
-    public void addBomb(Bomb bomb) {
-        bombList.add(bomb);
+    public static boolean isMobDead() {
+        return Bomber.numberOfMobKilled == mobList.size();
     }
 }
