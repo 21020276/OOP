@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.Mob;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Player.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Oneal extends Mob {
@@ -16,6 +17,7 @@ public class Oneal extends Mob {
     public void update() {
         animate();
         calculateMove();
+        collideWithPlayer();
 
         //choose direction with super basic if-else
         int direction = -1;
@@ -63,6 +65,13 @@ public class Oneal extends Mob {
                     setMoveRight(true);
                     break;
             }
+        }
+    }
+
+    @Override
+    public void collideWithPlayer() {
+        if (this.collide(BombermanGame.bomberman)) {
+            Bomber.isAlive = false;
         }
     }
 

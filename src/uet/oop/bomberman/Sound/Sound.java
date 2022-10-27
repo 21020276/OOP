@@ -33,7 +33,6 @@ public class Sound extends JFrame{
             else
                 url = getClass().getClassLoader().getResource("sound/just_died.wav");
             assert  url != null;
-            System.out.println(url.toString());
             AudioInputStream audio_input = AudioSystem.getAudioInputStream(url);
             if (sound.equals("title")) {
                 title_screen = AudioSystem.getClip();

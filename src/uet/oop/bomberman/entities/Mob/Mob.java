@@ -2,7 +2,9 @@ package uet.oop.bomberman.entities.Mob;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.Player.Bomber;
 
 public abstract class Mob extends Entity {
     public Mob(int xUnit, int yUnit, Image img) {
@@ -59,6 +61,9 @@ public abstract class Mob extends Entity {
     public void setMoveRight(boolean moveRight) {
         this.moveRight = moveRight;
     }
+    public void update() {
+        collideWithPlayer();
+    }
 
     protected void calculateMove() {
         int xa = 0, ya = 0;
@@ -109,11 +114,11 @@ public abstract class Mob extends Entity {
                 moveY = y / 32;
             }
             if (Board.getAt(moveX, moveY) == null) {
-                while (this.collide(Board.getAt(moveX, moveY + 1))) {
-                    y--;
+                if (this.collide(Board.getAt(moveX, moveY + 1))) {
+                    y-=31;
                 }
-                while (this.collide(Board.getAt(moveX, moveY - 1))) {
-                    y++;
+                if (this.collide(Board.getAt(moveX, moveY - 1))) {
+                    y+=31;
                 }
                 return true;
             }
@@ -131,11 +136,11 @@ public abstract class Mob extends Entity {
                 moveX = x / 32;
             }
             if (Board.getAt(moveX, moveY) == null) {
-                while (this.collide(Board.getAt(moveX + 1, moveY))) {
-                    x--;
+                if (this.collide(Board.getAt(moveX + 1, moveY))) {
+                    x-=31;
                 }
-                while (this.collide(Board.getAt(moveX - 1, moveY))) {
-                    x++;
+                if (this.collide(Board.getAt(moveX - 1, moveY))) {
+                    x+=31;
                 }
             }
         }
@@ -153,5 +158,6 @@ public abstract class Mob extends Entity {
         return false;
     }
 
+    public abstract void collideWithPlayer();
 }
 

@@ -29,6 +29,7 @@ public class Bomber extends Entity {
     protected List<Explosion> explosionList = new ArrayList<>();
     protected static int totalBomb = 2;
     protected static int SPEED = 3;
+    public static int numberOfMobKilled = 0;
 
     protected void animate() {
         if(_animate < MAX_ANIMATE) _animate++;
@@ -171,7 +172,8 @@ public class Bomber extends Entity {
                 moveY = y / 32;
             }
             if (Board.getAt(moveX, moveY) == null || ((Board.getAt(moveX, moveY) instanceof Bomb) &&
-                    (((Bomb) Board.getAt(moveX, moveY)).canGoThrough()))) {
+                    (((Bomb) Board.getAt(moveX, moveY)).canGoThrough()))
+                    || Board.getAt(moveX, moveY) instanceof Mob) {
                 while (this.collide(Board.getAt(moveX, moveY + 1))) {
                     y--;
                 }
@@ -194,7 +196,8 @@ public class Bomber extends Entity {
                 moveX = x / 32;
             }
             if (Board.getAt(moveX, moveY) == null || ((Board.getAt(moveX, moveY) instanceof Bomb) &&
-                    (((Bomb) Board.getAt(moveX, moveY)).canGoThrough()))) {
+                    (((Bomb) Board.getAt(moveX, moveY)).canGoThrough()))
+                || Board.getAt(moveX, moveY) instanceof Mob ){
                 while (this.collide(Board.getAt(moveX + 1, moveY))) {
                     x--;
                 }
@@ -312,6 +315,7 @@ public class Bomber extends Entity {
     public void checkAlive() {
         Entity entity = Board.getAt((x + 16) / 32, (y + 16) / 32);
         if (this.collide(entity)) {
+            System.out.println((Board.getAt((x + 16) / 32, (y + 16) / 32)));
             if (entity instanceof ExplodeSurround || entity instanceof Explosion
                 || entity instanceof Mob) {
                 isAlive = false;

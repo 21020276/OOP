@@ -1,6 +1,8 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Player.Bomber;
 
 public class Portal extends Entity {
 
@@ -10,7 +12,7 @@ public class Portal extends Entity {
 
     @Override
     public void update() {
-
+        checkLevelUp();
     }
 
     @Override
@@ -24,7 +26,20 @@ public class Portal extends Entity {
     }
 
     @Override
-    public boolean collide(Entity e) {
+    public boolean collide(Entity a) {
+        if (a != null) {
+            return x + 1 >= a.getX() && x + 1 <= a.getX() + 30 && y + 1 <= a.getY() + 30 && y + 1 >= a.getY()
+                    || (x + 1 >= a.getX() && x + 1 <= a.getX() + 30 && y + 30 >= a.getY() && y + 30 <= a.getY() + 30)
+                    || (x + 30 >= a.getX() && x + 30 <= a.getX() + 30 && y + 1 >= a.getY() && y + 1 <= a.getY() + 30)
+                    || (x + 30 >= a.getX() && x + 30 <= a.getX() + 30 && y + 30 >= a.getY() && y + 30 <= a.getY() + 30);
+        }
         return false;
+    }
+
+    public void checkLevelUp() {
+        System.out.println(x + " " + BombermanGame.bomberman.getX());
+        if (this.collide(BombermanGame.bomberman)) {
+            System.out.println("LEVEL UP!");
+        }
     }
 }

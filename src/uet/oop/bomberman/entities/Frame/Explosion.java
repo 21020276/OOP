@@ -4,12 +4,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Sound.Sound;
+import uet.oop.bomberman.entities.Mob.Mob;
 import uet.oop.bomberman.entities.Player.Bomb;
 import uet.oop.bomberman.entities.Brick;
 import uet.oop.bomberman.entities.BrickDestroy;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Mob.Balloon;
 import uet.oop.bomberman.entities.Mob.Oneal;
+import uet.oop.bomberman.entities.Player.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class Explosion extends Entity {
     private boolean destroy = false;
     private Entity removeEntity;
     private List<BrickDestroy> b = new ArrayList<>();
-    private List<Entity> mob = new ArrayList<>();
+    private List<Mob> mob = new ArrayList<>();
 
     public Explosion(int x, int y, Image img) {
         super(x, y, img);
@@ -112,6 +114,7 @@ public class Explosion extends Entity {
         }
         if (e instanceof Balloon) {
             e.img = Sprite.balloom_dead.getFxImage();
+            Bomber.numberOfMobKilled++;
             mob.add(new Balloon(e.getX() / 32, e.getY() / 32, Sprite.movingSprite(Sprite.mob_dead1,
                     Sprite.mob_dead2, Sprite.mob_dead3, _animate, 40).getFxImage()));
             Board.entities.remove(e);
@@ -119,6 +122,7 @@ public class Explosion extends Entity {
         }
         if (e instanceof Oneal) {
             e.img = Sprite.oneal_dead.getFxImage();
+            Bomber.numberOfMobKilled++;
             mob.add(new Oneal(e.getX() / 32, e.getY() / 32, Sprite.movingSprite(Sprite.mob_dead1,
                     Sprite.mob_dead2, Sprite.mob_dead3, _animate, 40).getFxImage()));
             Board.entities.remove(e);

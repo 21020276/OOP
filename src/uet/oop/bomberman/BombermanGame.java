@@ -25,6 +25,7 @@ import uet.oop.bomberman.Score.Score;
 import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.Mob.Balloon;
+import uet.oop.bomberman.entities.Mob.Mob;
 import uet.oop.bomberman.entities.Mob.Oneal;
 import uet.oop.bomberman.entities.Player.Bomb;
 import uet.oop.bomberman.entities.Player.Bomber;
@@ -48,18 +49,18 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     private Pane pane;
     private Scene scene;
-    private Bomber bomberman;
+    public static Bomber bomberman;
+    public static List<Mob> mobList = new ArrayList<>();
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
     private List<Bomb> bombList = new ArrayList<>();
-    private int level;
+    public static int LEVEL;
     private int row;
     private int col;
     private int playerX = 1;
     private int playerY = 1;
     protected Sprite sprite;
     public static List<Item> itemList = new ArrayList<>();
-
     public static Bomber _bomber;
 
 
@@ -233,7 +234,7 @@ public class BombermanGame extends Application {
     public void createMap() throws IOException {
         File file = new File("target/classes/levels/Level1.txt");
         Scanner scanner = new Scanner(file);
-        level = scanner.nextInt();
+        LEVEL = scanner.nextInt();
         row = scanner.nextInt();
         col = scanner.nextInt();
         scanner.nextLine();
@@ -254,18 +255,20 @@ public class BombermanGame extends Application {
                         break;
                     case 'x' :
                         object = new Portal(j, i, Sprite.portal.getFxImage());
-                        //stillObjects.add(object);
+                        stillObjects.add(object);
                         Board.entities.add(object);
                         break;
                     case '1' :
                         Balloon balloon = new Balloon(j, i, Sprite.balloom_right1.getFxImage());
                         //entities.add(balloon);
                         Board.entities.add(balloon);
+                        mobList.add(balloon);
                         break;
                     case '2' :
-                        object = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
+                        Oneal oneal = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
                         //stillObjects.add(object);
-                        Board.entities.add(object);
+                        Board.entities.add(oneal);
+                        mobList.add(oneal);
                         break;
                     case 's' :
                         object = new Brick(j, i, Sprite.brick.getFxImage());
@@ -290,13 +293,21 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
+        //mobList.forEach(Mob::update);
         entities.forEach(Entity::update);
         stillObjects.forEach(Entity::update);
         itemList.forEach(Item::update);
         Board.entities.forEach(Entity::update);
         if (bomberman.isStop()) {
-            //Board.entities.remove(bomberman);
             entities.remove(bomberman);
+        }
+        if (Bomber.numberOfMobKilled == mobList.size()) {
+            for (Entity e : Board.entities) {
+                if (e instanceof Portal) {
+                    Board.entities.remove(e);
+                    break;
+                }
+            }
         }
         updateSound();
         score.updateScore();
@@ -308,7 +319,7 @@ public class BombermanGame extends Application {
         itemList.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
         Board.entities.forEach(g -> g.render(gc));
-
+        //mobList.forEach(g -> g.render(gc));
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 415, 993, 30);
     }
