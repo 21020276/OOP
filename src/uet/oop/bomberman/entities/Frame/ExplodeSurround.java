@@ -34,16 +34,6 @@ public class ExplodeSurround extends Entity {
     }
 
     @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
     public boolean collide(Entity e) {
         if (e != null) {
             return x / 32 == e.getX() / 32 && y / 32 == e.getY() / 32;

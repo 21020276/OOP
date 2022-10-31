@@ -1,14 +1,9 @@
 package uet.oop.bomberman.Sound;
-
-import uet.oop.bomberman.BombermanGame;
-
 import javax.sound.sampled.*;
 import javax.swing.*;
 
 import java.io.IOException;
 import java.net.URL;
-
-import static com.sun.javafx.scene.control.skin.Utils.getResource;
 import static uet.oop.bomberman.BombermanGame.*;
 
 public class Sound extends JFrame{
@@ -18,7 +13,6 @@ public class Sound extends JFrame{
     public static Clip put_bomb;
     public static boolean is_sound_died;
     public static boolean is_sound_title;
-    private static boolean is_sound_complete;
 
     public Sound(String name, String sound) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

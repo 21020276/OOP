@@ -2,7 +2,6 @@ package uet.oop.bomberman.Item;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.Item.Item;
 import uet.oop.bomberman.entities.Entity;
 
 public class BombItem extends Item {
@@ -17,19 +16,7 @@ public class BombItem extends Item {
     }
 
     @Override
-    public void update() {
-
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
+    public void update() {}
 
     @Override
     public boolean collide(Entity e) {

@@ -14,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import uet.oop.bomberman.Item.BombItem;
@@ -39,10 +38,8 @@ import java.util.Scanner;
 import static uet.oop.bomberman.Sound.Sound.updateSound;
 
 public class BombermanGame extends Application {
-    
     public static final int WIDTH = 32;
     public static final int HEIGHT = 13;
-    public static final int TILES_SIZE = 16;
     private int status = 0;
     private GraphicsContext gc;
     public Board board = new Board();

@@ -58,13 +58,6 @@ public class Balloon extends Mob {
 
     }
 
-    @Override
-    public void collideWithPlayer() {
-        if (this.collide(BombermanGame.bomberman)) {
-            Bomber.isAlive = false;
-        }
-    }
-
     protected void chooseSprite() {
         switch(_direction) {
             case 3:

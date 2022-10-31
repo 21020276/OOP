@@ -16,19 +16,7 @@ public class SpeedItem extends Item {
     }
 
     @Override
-    public void update() {
-
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
+    public void update() {}
 
     @Override
     public boolean collide(Entity e) {

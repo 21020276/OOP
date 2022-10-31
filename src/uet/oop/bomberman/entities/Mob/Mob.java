@@ -19,16 +19,6 @@ public abstract class Mob extends Entity {
     protected boolean _moving = false;
     protected boolean moveUp, moveDown, moveLeft, moveRight;
 
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
     public boolean isMoveUp() {
         return moveUp;
     }
@@ -155,7 +145,11 @@ public abstract class Mob extends Entity {
     }
 
 
-    public abstract void collideWithPlayer();
+    protected void collideWithPlayer() {
+        if (this.collide(BombermanGame.bomberman)) {
+            Bomber.isAlive = false;
+        }
+    }
 
     protected abstract void chooseSprite();
 }

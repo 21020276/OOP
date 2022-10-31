@@ -16,16 +16,6 @@ public class Portal extends Entity {
     }
 
     @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
     public boolean collide(Entity a) {
         if (a != null) {
             return x + 1 >= a.getX() && x + 1 <= a.getX() + 30 && y + 1 <= a.getY() + 30 && y + 1 >= a.getY()

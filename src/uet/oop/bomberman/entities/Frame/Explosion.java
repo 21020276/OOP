@@ -70,16 +70,6 @@ public class Explosion extends Entity {
     }
 
     @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
     public boolean collide(Entity e) {
         return false;
     }

@@ -116,15 +116,6 @@ public class Bomber extends Entity {
     public void setMoveRight(boolean moveRight) {
         this.moveRight = moveRight;
     }
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
 
     protected void calculateMove() {
         int xa = 0, ya = 0;

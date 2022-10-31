@@ -9,19 +9,7 @@ public class Grass extends Entity {
     }
 
     @Override
-    public void update() {
-
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
+    public void update() {}
 
     @Override
     public boolean collide(Entity e) {

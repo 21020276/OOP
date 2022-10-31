@@ -36,9 +36,13 @@ public abstract class Entity {
     }
     public abstract void update();
 
-    public abstract int getX();
+    public int getX() {
+        return x;
+    }
 
-    public abstract int getY();
+    public int getY() {
+        return y;
+    }
 
     public abstract boolean collide(Entity e);
 }

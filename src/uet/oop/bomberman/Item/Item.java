@@ -9,19 +9,7 @@ public class Item extends Entity {
     }
 
     @Override
-    public void update() {
-
-    }
-
-    @Override
-    public int getX() {
-        return 0;
-    }
-
-    @Override
-    public int getY() {
-        return 0;
-    }
+    public void update() {}
 
     @Override
     public boolean collide(Entity e) {

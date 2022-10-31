@@ -66,13 +66,6 @@ public class Oneal extends Mob {
     }
 
     @Override
-    public void collideWithPlayer() {
-        if (this.collide(BombermanGame.bomberman)) {
-            Bomber.isAlive = false;
-        }
-    }
-
-    @Override
     protected void chooseSprite() {
         switch(_direction) {
             case 3:
