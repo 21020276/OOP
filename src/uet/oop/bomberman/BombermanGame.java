@@ -92,23 +92,6 @@ public class BombermanGame extends Application {
         mainMenuRoot.getChildren().addAll(canvas, vBox);
     }
 
-    public void exit() {
-        System.out.println("EXIT!");
-    }
-
-    public void gameContinue() {
-        System.out.println("CONTINUE!");
-    }
-
-    public void gameStart() {
-        System.out.println("GAME START!");
-        status = 1;
-    }
-
-    public boolean isGameStart() {
-        return status == 1;
-    }
-
     @Override
     public void start(Stage stage) throws IOException {
         if (status == 0) {

@@ -2,7 +2,6 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.Board;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Brick extends Entity {
@@ -29,17 +28,5 @@ public class Brick extends Entity {
     @Override
     public boolean collide(Entity e) {
         return false;
-    }
-
-    public boolean isDestroy() {
-        return destroy;
-    }
-
-    public void setDestroy(boolean destroy) {
-        this.destroy = destroy;
-    }
-
-    public boolean isRemove() {
-        return remove;
     }
 }

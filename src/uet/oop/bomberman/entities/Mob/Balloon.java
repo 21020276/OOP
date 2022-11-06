@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Player.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -18,65 +19,49 @@ public class Balloon extends Mob {
     public void update() {
         sprite = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, _animate, 20);
         animate();
-        calculateMove();
         collideWithPlayer();
         Random random = new Random();
         int direction = random.nextInt(4);
-        if (waitTime > 0) waitTime--;
 
-        if (waitTime == 0)
         switch (direction) {
             case 0:
-                waitTime = 30;
-                setMoveDown(true);
-                setMoveUp(false);
-                setMoveLeft(false);
-                setMoveRight(false);
+                move(DOWN);
                 break;
             case 1:
-                waitTime = 30;
-                setMoveDown(false);
-                setMoveUp(true);
-                setMoveLeft(false);
-                setMoveRight(false);
+                move(UP);
                 break;
             case 2:
-                waitTime = 30;
-                setMoveDown(false);
-                setMoveUp(false);
-                setMoveLeft(true);
-                setMoveRight(false);
+                move(LEFT);
                 break;
             case 3:
-                waitTime = 30;
-                setMoveDown(false);
-                setMoveUp(false);
-                setMoveLeft(false);
-                setMoveRight(true);
+                move(RIGHT);
                 break;
         }
 
     }
 
     protected void chooseSprite() {
-        switch(_direction) {
+        switch(direction_) {
             case 3:
                 sprite = Sprite.balloom_left1;
-                if(_moving) {
+                if(nowMove) {
                     sprite = Sprite.movingSprite(Sprite.balloom_left2, Sprite.balloom_left3, _animate, 20);
                 }
                 break;
             case 1:
                 sprite = Sprite.balloom_right1;
-                if(_moving) {
+                if(nowMove) {
                     sprite = Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, _animate, 20);
                 }
                 break;
         }
     }
+
+
     @Override
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }
+
 
 }

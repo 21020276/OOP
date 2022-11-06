@@ -16,7 +16,6 @@ public class Oneal extends Mob {
     @Override
     public void update() {
         animate();
-        calculateMove();
         collideWithPlayer();
 
         //choose direction with super basic if-else
@@ -30,53 +29,35 @@ public class Oneal extends Mob {
         if (y/32 > BombermanGame._bomber.getY() /32)
             direction = 1;
 
-        if (waitTime > 0) waitTime--;
-        if (waitTime == 0) {
+
             switch (direction) {
                 case 0:
-                    waitTime = 30;
-                    setMoveDown(true);
-                    setMoveUp(false);
-                    setMoveLeft(false);
-                    setMoveRight(false);
+                    move(DOWN);
                     break;
                 case 1:
-                    waitTime = 30;
-                    setMoveDown(false);
-                    setMoveUp(true);
-                    setMoveLeft(false);
-                    setMoveRight(false);
+                    move(UP);
                     break;
                 case 2:
-                    waitTime = 30;
-                    setMoveDown(false);
-                    setMoveUp(false);
-                    setMoveLeft(true);
-                    setMoveRight(false);
+                    move(LEFT);
                     break;
                 case 3:
-                    waitTime = 30;
-                    setMoveDown(false);
-                    setMoveUp(false);
-                    setMoveLeft(false);
-                    setMoveRight(true);
+                    move(RIGHT);
                     break;
             }
         }
-    }
 
     @Override
     protected void chooseSprite() {
-        switch(_direction) {
+        switch(direction_) {
             case 3:
                 sprite = Sprite.oneal_left1;
-                if(_moving) {
+                if(nowMove) {
                     sprite = Sprite.movingSprite(Sprite.oneal_left2, Sprite.oneal_left3, _animate, 20);
                 }
                 break;
             case 1:
                 sprite = Sprite.oneal_right1;
-                if(_moving) {
+                if(nowMove) {
                     sprite = Sprite.movingSprite(Sprite.oneal_right2, Sprite.oneal_right3, _animate, 20);
                 }
                 break;

@@ -35,8 +35,4 @@ public class BrickDestroy extends Entity {
     public boolean isStop() {
         return stop;
     }
-
-    public void setStop(boolean stop) {
-        this.stop = stop;
-    }
 }

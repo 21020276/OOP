@@ -27,8 +27,8 @@ public class Bomber extends Entity {
     public static boolean isAlive = true;
     protected List<Bomb> bombList = new ArrayList<>();
     protected List<Explosion> explosionList = new ArrayList<>();
-    protected static int totalBomb = 2;
-    protected static int SPEED = 3;
+    protected static int totalBomb = 1;
+    protected static int SPEED = 1;
     public static int numberOfMobKilled = 0;
 
     protected void animate() {
@@ -261,7 +261,6 @@ public class Bomber extends Entity {
         Explosion e = new Explosion(xa, ya, sprite.getFxImage());
         goThroughBomb = true;
         explosionList.add(e);
-        //Board.entities.add(e);
         e.setExplodeSurrounds();
     }
 
