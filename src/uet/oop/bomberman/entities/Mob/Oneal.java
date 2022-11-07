@@ -3,8 +3,10 @@ package uet.oop.bomberman.entities.Mob;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Player.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
+
+import java.util.Random;
+import java.util.Stack;
 
 public class Oneal extends Mob {
 
@@ -18,55 +20,73 @@ public class Oneal extends Mob {
         animate();
         collideWithPlayer();
 
+
         //choose direction with super basic if-else
-        int direction = -1;
-        if (x/32 < BombermanGame._bomber.getX() /32)
-            direction = 3;
-        if (x/32 > BombermanGame._bomber.getX() /32)
-            direction = 2;
-        if (y/32 < BombermanGame._bomber.getY() /32)
-            direction = 0;
-        if (y/32 > BombermanGame._bomber.getY() /32)
-            direction = 1;
+            int direction = 0;
 
+            if (x/32 < BombermanGame._bomber.getX() /32)
+                direction = RIGHT;
+            if (x/32 > BombermanGame._bomber.getX() /32)
+                direction = LEFT;
+            if (y/32 < BombermanGame._bomber.getY() /32)
+                direction = DOWN;
+            if (y/32 > BombermanGame._bomber.getY() /32)
+                direction = UP;
 
-            switch (direction) {
-                case 0:
-                    move(DOWN);
-                    break;
-                case 1:
-                    move(UP);
-                    break;
-                case 2:
-                    move(LEFT);
-                    break;
-                case 3:
-                    move(RIGHT);
-                    break;
+            if (!canMove(direction)) {
+                Random random = new Random();
+                direction = random.nextInt(4);
+                System.out.println("random" + direction);
             }
+            if (canMove(direction)) {
+                System.out.println("can move, direction: " + direction);
+            }
+
+        switch (direction) {
+            case DOWN:
+                move(DOWN);
+                break;
+            case UP:
+                move(UP);
+                break;
+            case LEFT:
+                move(LEFT);
+                break;
+            case RIGHT:
+                move(RIGHT);
+                break;
         }
+    }
+
+
+
 
     @Override
     protected void chooseSprite() {
         switch(direction_) {
-            case 3:
+            case LEFT:
                 sprite = Sprite.oneal_left1;
                 if(nowMove) {
-                    sprite = Sprite.movingSprite(Sprite.oneal_left2, Sprite.oneal_left3, _animate, 20);
+                    sprite = Sprite.movingSprite(Sprite.oneal_left1,Sprite.oneal_left2, Sprite.oneal_left3, _animate, 30);
                 }
                 break;
-            case 1:
+            case RIGHT:
                 sprite = Sprite.oneal_right1;
                 if(nowMove) {
-                    sprite = Sprite.movingSprite(Sprite.oneal_right2, Sprite.oneal_right3, _animate, 20);
+                    sprite = Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, _animate, 30);
                 }
                 break;
+            default:
+                if (nowMove) {
+                    sprite = Sprite.movingSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, _animate, 30);
+                }
         }
     }
 
 
     @Override
     public void render(GraphicsContext gc) {
-        gc.drawImage(img, x, y);
+        chooseSprite();
+        gc.drawImage(sprite.getFxImage(), x, y);
     }
 }

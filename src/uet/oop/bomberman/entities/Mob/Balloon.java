@@ -13,7 +13,7 @@ import java.util.Random;
 public class Balloon extends Mob {
     public Balloon(int x, int y, Image img) {
         super(x, y, img);
-        sprite = Sprite.balloom_right1;
+        sprite = Sprite.balloom_left1;
     }
     @Override
     public void update() {
@@ -42,13 +42,13 @@ public class Balloon extends Mob {
 
     protected void chooseSprite() {
         switch(direction_) {
-            case 3:
+            case LEFT:
                 sprite = Sprite.balloom_left1;
                 if(nowMove) {
                     sprite = Sprite.movingSprite(Sprite.balloom_left2, Sprite.balloom_left3, _animate, 20);
                 }
                 break;
-            case 1:
+            case RIGHT:
                 sprite = Sprite.balloom_right1;
                 if(nowMove) {
                     sprite = Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, _animate, 20);
@@ -60,7 +60,8 @@ public class Balloon extends Mob {
 
     @Override
     public void render(GraphicsContext gc) {
-        gc.drawImage(img, x, y);
+        chooseSprite();
+        gc.drawImage(sprite.getFxImage(), x, y);
     }
 
 

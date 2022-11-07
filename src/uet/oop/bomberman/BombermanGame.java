@@ -259,7 +259,7 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
-        //mobList.forEach(Mob::update);
+        //mobList.forEac(Mob::update);
         entities.forEach(Entity::update);
         stillObjects.forEach(Entity::update);
         itemList.forEach(Item::update);

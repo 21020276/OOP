@@ -40,89 +40,71 @@ public abstract class Mob extends Entity {
         move--;
     }
 
+    protected boolean canMove(int direction) {
+        switch (direction) {
+            case UP:
+                if (!(Board.getAt(getX()/32, (getY() - 32)/32) instanceof Brick
+                        || Board.getAt(getX()/32, (getY() - 32)/32) instanceof Wall)) {
+                    return true;
+                }
+                break;
+            case DOWN:
+                    if (!(Board.getAt(getX()/32, (getY() + 32)/32) instanceof Brick
+                            || Board.getAt(getX()/32, (getY() + 32)/32) instanceof Wall)) {
+                        return true;
+                    }
+                    break;
+            case RIGHT:
+                    if (!(Board.getAt((getX() + 32)/32, getY()/32) instanceof Brick
+                            || Board.getAt((getX() + 32)/32, getY()/32) instanceof Wall)) {
+                        return true;
+                    }
+                    break;
+            case LEFT:
+                    if (!(Board.getAt((getX() - 32)/32, getY()/32) instanceof Brick
+                            || Board.getAt((getX() - 32)/32, getY()/32) instanceof Wall)) {
+                        return true;
+                    }
+                    break;
+        }
+        return false;
+    }
     public void move(int direction) {
-        // choose type move
-        System.out.println(direction);
         switch (direction) {
             case UP:
                 if (!nowMove)
-                    if (Board.getAt(getX()/32, (getY() - 32)/32) instanceof Brick
-                            || Board.getAt(getX()/32, (getY() - 32)/32) instanceof Wall)
-                        System.out.println("cannot move up");
-                if (!nowMove)
-                    if (!(Board.getAt(getX()/32, (getY() - 32)/32) instanceof Brick
-                            || Board.getAt(getX()/32, (getY() - 32)/32) instanceof Wall)) {
-                        //test condition
-                        int k = getX()/32;
-                        int k_ = getY()/32;
-                        if (getX()-k*32!=0 || getY()-k_*32!=0)
-                            System.out.println("x, y: " + getX() + " " + getY());
+                    if (canMove(UP)) {
+                        direction_ = UP;
                         move = 32;
                         moveUp();
-                        System.out.println("moveUP");
                         nowMove = true;
-                        direction_ = UP;
                     }
                 break;
             case DOWN:
                 if (!nowMove)
-                    if (Board.getAt(getX()/32, (getY() + 32)/32) instanceof Brick
-                            || Board.getAt(getX()/32, (getY() + 32)/32) instanceof Wall)
-                        System.out.println("cannot move down");
-                if (!nowMove)
-                    if (!(Board.getAt(getX()/32, (getY() + 32)/32) instanceof Brick
-                            || Board.getAt(getX()/32, (getY() + 32)/32) instanceof Wall)) {
-                        //test condition
-                        int k = getX()/32;
-                        int k_ = getY()/32;
-                        if (getX()-k*32!=0 || getY()-k_*32!=0)
-                            System.out.println("x, y: " + getX() + " " + getY());
-
+                    if (canMove(DOWN)) {
+                        direction_ = DOWN;
                         move = 32;
                         moveDown();
-                        System.out.println("moveDOWN");
                         nowMove = true;
-                        direction_ = DOWN;
                     }
                 break;
             case RIGHT:
                 if (!nowMove)
-                    if (Board.getAt((getX() + 32)/32, getY()/32) instanceof Brick
-                            || Board.getAt((getX() + 32)/32, getY()/32) instanceof Wall)
-                        System.out.println("cannot move right");
-                if (!nowMove)
-                    if (!(Board.getAt((getX() + 32)/32, getY()/32) instanceof Brick
-                            || Board.getAt((getX() + 32)/32, getY()/32) instanceof Wall)) {
-                        //test condition
-                        int k = getX()/32;
-                        int k_ = getY()/32;
-                        if (getX()-k*32!=0 || getY()-k_*32!=0)
-                            System.out.println("x, y: " + getX() + " " + getY());
+                    if (canMove(RIGHT)) {
+                        direction_ = RIGHT;
                         move = 32;
                         moveRight();
-                        System.out.println("moveRIGHT");
                         nowMove = true;
-                        direction_ = RIGHT;
                     }
                 break;
             case LEFT:
-                if (!nowMove)
-                    if (Board.getAt((getX() - 32)/32, getY()/32) instanceof Brick
-                            || Board.getAt((getX() - 32)/32, getY()/32) instanceof Wall)
-                        System.out.println("cannot move left");
                 if (!nowMove) {
-                    if (!(Board.getAt((getX() - 32)/32, getY()/32) instanceof Brick
-                            || Board.getAt((getX() - 32)/32, getY()/32) instanceof Wall)) {
-                        //test condition
-                        int k = getX()/32;
-                        int k_ = getY()/32;
-                        if (getX()-k*32!=0 || getY()-k_*32!=0)
-                            System.out.println("x, y: " + getX() + " " + getY());
+                    if (canMove(LEFT)) {
+                        direction_ = LEFT;
                         move = 32;
                         moveLeft();
-                        System.out.println("moveLEFT");
                         nowMove = true;
-                        direction_ = LEFT;
                     }
                 }
                 break;
