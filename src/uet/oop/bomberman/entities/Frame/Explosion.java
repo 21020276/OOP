@@ -104,19 +104,14 @@ public class Explosion extends Entity {
              Board.entities.remove(e);
         }
         if (e instanceof Balloon) {
-            e.img = Sprite.balloom_dead.getFxImage();
+            ((Balloon) e).setAlive(false);
+            e.setSprite(Sprite.balloom_dead);
             Bomber.numberOfMobKilled++;
-            mob.add(new Balloon(e.getX() / 32, e.getY() / 32, Sprite.movingSprite(Sprite.mob_dead1,
-                    Sprite.mob_dead2, Sprite.mob_dead3, _animate, 40).getFxImage()));
-            Board.entities.remove(e);
-
         }
         if (e instanceof Oneal) {
-            e.img = Sprite.oneal_dead.getFxImage();
+            ((Oneal) e).setAlive(false);
+            e.setSprite(Sprite.oneal_dead);
             Bomber.numberOfMobKilled++;
-            mob.add(new Oneal(e.getX() / 32, e.getY() / 32, Sprite.movingSprite(Sprite.mob_dead1,
-                    Sprite.mob_dead2, Sprite.mob_dead3, _animate, 40).getFxImage()));
-            Board.entities.remove(e);
         }
         if (e instanceof Bomb) {
             ((Bomb) e).setBlow(true);

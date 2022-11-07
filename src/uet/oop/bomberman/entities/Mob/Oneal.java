@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.Mob;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Board;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -57,10 +58,6 @@ public class Oneal extends Mob {
                 break;
         }
     }
-
-
-
-
     @Override
     protected void chooseSprite() {
         switch(direction_) {
@@ -83,10 +80,21 @@ public class Oneal extends Mob {
         }
     }
 
-
+    private int count = 60;
     @Override
     public void render(GraphicsContext gc) {
-        chooseSprite();
-        gc.drawImage(sprite.getFxImage(), x, y);
+        if (isAlive) {
+            chooseSprite();
+            gc.drawImage(sprite.getFxImage(), x, y);
+        } else {
+            if (count == 0) {
+                Board.entities.remove(this);
+            }
+            count--;
+            gc.drawImage(sprite.getFxImage(), x, y);
+            if (count < 41) {
+                sprite = Sprite.movingSprite(Sprite.mob_dead1,Sprite.mob_dead2,Sprite.mob_dead3,_animate,40);
+            }
+        }
     }
 }

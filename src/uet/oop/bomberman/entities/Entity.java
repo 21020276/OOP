@@ -13,6 +13,10 @@ public abstract class Entity {
     public Image img;
 
     protected Sprite sprite;
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
     protected int _animate = 0;
     protected static final int MAX_ANIMATE = 7500;
     protected void animate() {

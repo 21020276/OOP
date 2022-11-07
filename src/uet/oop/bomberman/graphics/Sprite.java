@@ -179,7 +179,7 @@ public class Sprite {
 			}
 		}
 	}
-	
+
 	public static Sprite movingSprite(Sprite normal, Sprite x1, Sprite x2, int animate, int time) {
 		int calc = animate % time;
 		int diff = time / 3;
@@ -191,7 +191,7 @@ public class Sprite {
 		if(calc < diff * 2) {
 			return x1;
 		}
-			
+
 		return x2;
 	}
 	

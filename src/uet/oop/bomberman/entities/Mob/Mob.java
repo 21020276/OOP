@@ -6,6 +6,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Brick;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Grass;
+import uet.oop.bomberman.entities.Player.Bomb;
 import uet.oop.bomberman.entities.Player.Bomber;
 import uet.oop.bomberman.entities.Wall;
 
@@ -14,6 +15,10 @@ public abstract class Mob extends Entity {
         super(xUnit, yUnit, img);
     }
     protected boolean isAlive = true;
+
+    public void setAlive(boolean alive) {
+        this.isAlive = alive;
+    }
     public static final int UP = 0;
     public static final int DOWN = 1;
     public static final int RIGHT = 2;
@@ -44,25 +49,29 @@ public abstract class Mob extends Entity {
         switch (direction) {
             case UP:
                 if (!(Board.getAt(getX()/32, (getY() - 32)/32) instanceof Brick
-                        || Board.getAt(getX()/32, (getY() - 32)/32) instanceof Wall)) {
+                        || Board.getAt(getX()/32, (getY() - 32)/32) instanceof Wall
+                            || Board.getAt(getX()/32, (getY() - 32)/32) instanceof Bomb)) {
                     return true;
                 }
                 break;
             case DOWN:
                     if (!(Board.getAt(getX()/32, (getY() + 32)/32) instanceof Brick
-                            || Board.getAt(getX()/32, (getY() + 32)/32) instanceof Wall)) {
+                            || Board.getAt(getX()/32, (getY() + 32)/32) instanceof Wall
+                                || Board.getAt(getX()/32, (getY() + 32)/32) instanceof Bomb)) {
                         return true;
                     }
                     break;
             case RIGHT:
                     if (!(Board.getAt((getX() + 32)/32, getY()/32) instanceof Brick
-                            || Board.getAt((getX() + 32)/32, getY()/32) instanceof Wall)) {
+                            || Board.getAt((getX() + 32)/32, getY()/32) instanceof Wall
+                                || Board.getAt((getX() + 32)/32, getY()/32) instanceof Bomb)) {
                         return true;
                     }
                     break;
             case LEFT:
                     if (!(Board.getAt((getX() - 32)/32, getY()/32) instanceof Brick
-                            || Board.getAt((getX() - 32)/32, getY()/32) instanceof Wall)) {
+                            || Board.getAt((getX() - 32)/32, getY()/32) instanceof Wall
+                                || Board.getAt((getX() - 32)/32, getY()/32) instanceof Bomb)) {
                         return true;
                     }
                     break;
@@ -137,7 +146,13 @@ public abstract class Mob extends Entity {
         }
     }
     @Override
-    public boolean collide(Entity e) {
+    public boolean collide(Entity a) {
+        if (a != null) {
+            return x + 1 >= a.getX() && x + 1 <= a.getX() + 30 && y + 1 <= a.getY() + 30 && y + 1 >= a.getY()
+                    || (x + 1 >= a.getX() && x + 1 <= a.getX() + 30 && y + 30 >= a.getY() && y + 30 <= a.getY() + 30)
+                    || (x + 30 >= a.getX() && x + 30 <= a.getX() + 30 && y + 1 >= a.getY() && y + 1 <= a.getY() + 30)
+                    || (x + 30 >= a.getX() && x + 30 <= a.getX() + 30 && y + 30 >= a.getY() && y + 30 <= a.getY() + 30);
+        }
         return false;
     }
 }

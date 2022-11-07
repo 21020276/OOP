@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.Mob;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+import uet.oop.bomberman.Board;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Player.Bomber;
@@ -17,7 +18,7 @@ public class Balloon extends Mob {
     }
     @Override
     public void update() {
-        sprite = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, _animate, 20);
+        //sprite = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, _animate, 20);
         animate();
         collideWithPlayer();
         Random random = new Random();
@@ -57,12 +58,21 @@ public class Balloon extends Mob {
         }
     }
 
-
+    private int count = 60;
     @Override
     public void render(GraphicsContext gc) {
-        chooseSprite();
-        gc.drawImage(sprite.getFxImage(), x, y);
+        if (isAlive) {
+            chooseSprite();
+            gc.drawImage(sprite.getFxImage(), x, y);
+        } else {
+            if (count == 0) {
+                Board.entities.remove(this);
+            }
+            count--;
+            gc.drawImage(sprite.getFxImage(), x, y);
+            if (count < 41) {
+                sprite = Sprite.movingSprite(Sprite.mob_dead1,Sprite.mob_dead2,Sprite.mob_dead3,_animate,40);
+            }
+        }
     }
-
-
 }
